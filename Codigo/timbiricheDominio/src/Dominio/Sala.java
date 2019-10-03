@@ -4,12 +4,15 @@
  */
 package Dominio;
 
+import java.util.List;
+
 /**
  *
  * @author Alejandro Galindo, Francisco Felix, Cesar Acactitla
  */
 public class Sala {
     
+    private List<Jugador> jugadores;
     private Tablero tablero;
     private Marcador marcador;
     private int tamanio;
@@ -25,6 +28,15 @@ public class Sala {
         this.marcador = marcador;
         this.tamanio = tamanio;
         this.votacion = 0;
+        this.jugadores = this.marcador.getJugadores();
+    }
+
+    public List<Jugador> getJugadores() {
+        return jugadores;
+    }
+
+    public void setJugadores(List<Jugador> jugadores) {
+        this.jugadores = jugadores;
     }
 
     public Tablero getTablero() {
@@ -57,6 +69,18 @@ public class Sala {
 
     public void setVotacion(int votacion) {
         this.votacion = votacion;
+    }
+    
+    public void agregarJugador(Jugador jugador){
+        if(this.jugadores.size() < this.tamanio){
+            this.jugadores.add(jugador);
+            this.marcador.setJugadores(this.jugadores);
+        }
+    }
+    
+    public void eliminarJugador(Jugador jugador){
+        this.jugadores.remove(jugador);
+        this.marcador.setJugadores(this.jugadores);
     }
 
     public void aumentarVotacion(){

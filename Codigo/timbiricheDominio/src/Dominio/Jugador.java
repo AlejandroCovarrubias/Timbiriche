@@ -1,29 +1,23 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Jugador.java
  */
 package Dominio;
 
-import java.util.List;
 import java.util.Objects;
 
 /**
  *
- * @author Alejandro Galindo
+ * @author Alejandro Galindo, Francisco Felix, Cesar Acactitla
  */
 public class Jugador {
     private String nombre;
     private String rutaAvatar;
     private int puntaje;
     private Preferencia preferencia;
-    private List<Linea> lineas;
-    private List<Cuadro> cuadros;
 
     public Jugador(String nombre, String rutaAvatar) {
         this.nombre = nombre;
         this.rutaAvatar = rutaAvatar;
-        
     }
 
     public String getNombre() {
@@ -81,5 +75,10 @@ public class Jugador {
             return false;
         }
         return true;
+    }
+    
+    @Override
+    public String toString(){
+        return this.nombre + " - " + this.getRutaAvatar();
     }
 }

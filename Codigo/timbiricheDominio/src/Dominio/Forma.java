@@ -1,13 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Forma.java
  */
 package Dominio;
 
 /**
  *
- * @author Alejandro Galindo
+ * @author Alejandro Galindo, Francisco Felix, Cesar Acactitla
  */
 public class Forma {
     private int width;
@@ -89,7 +87,5 @@ public class Forma {
             return false;
         }
         return true;
-    }
-    
-    
+    } 
 }

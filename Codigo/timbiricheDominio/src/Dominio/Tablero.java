@@ -4,11 +4,12 @@
  */
 package Dominio;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
- * @author Alejandro Galindo
+ * @author Alejandro Galindo, Francisco Felix, Cesar Acactitla
  */
 public class Tablero {
     private int ancho, alto;
@@ -18,6 +19,11 @@ public class Tablero {
     private List<Punto> puntos;
     
     public Tablero(int tamanio){
+        lineasHorizontales = new ArrayList<>();
+        lineasVerticales = new ArrayList<>();
+        cuadros = new ArrayList<>();
+        puntos = new ArrayList<>();
+        
         switch (tamanio) {
             case 2:
                 this.ancho = this.alto = 10;

@@ -1,21 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Linea.java
  */
 package Dominio;
 
 /**
  *
- * @author Alejandro Galindo
+ * @author Alejandro Galindo, Francisco Felix, Cesar Acactitla
  */
-public class Linea extends Forma {
+public class Linea extends FormaJuego {
     
     private boolean conectado;
 
-    public Linea(boolean conectado, int width, int height, int x, int y) {
+    public Linea(int width, int height, int x, int y) {
         super(width, height, x, y);
-        this.conectado = conectado;
+    }
+    
+    public Linea(int width, int height, int x, int y, Jugador jugador) {
+        super(width, height, x, y, jugador);
     }
 
     public boolean isConectado() {

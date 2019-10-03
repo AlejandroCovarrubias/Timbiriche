@@ -1,34 +1,21 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Cuadro.java
  */
 package Dominio;
 
 /**
  *
- * @author Alejandro Galindo
+ * @author Alejandro Galindo, Francisco Felix, Cesar Acactitla
  */
-public class Cuadro extends Forma {
+public class Cuadro extends FormaJuego {
 
     private Linea[] lineasHorizontal;
     private Linea[] lineasVertical;
 
-    public Cuadro(Linea[] lineasHorizontal, Linea[] lineasVertical, int width, int height, int x, int y) {
-        super(width, height, x, y);
+    public Cuadro(Linea[] lineasHorizontal, Linea[] lineasVertical, int width, int height, int x, int y, Jugador jugador) {
+        super(width, height, x, y, jugador);
         this.lineasHorizontal = lineasHorizontal;
         this.lineasVertical = lineasVertical;
-    }
-    
-    public boolean esCuadro() {
-        boolean cuadrado = true;
-        for (int i = 0; i < 2; i++) {
-            if (!lineasHorizontal[i].isConectado() || !lineasVertical[i].isConectado()) {
-                cuadrado = false;
-            }
-        }
-
-        return cuadrado;
     }
 
     public Linea[] getLineasHorizontal() {
@@ -45,5 +32,5 @@ public class Cuadro extends Forma {
 
     public void setLineasVertical(Linea[] lineasVertical) {
         this.lineasVertical = lineasVertical;
-    }   
+    }    
 }
