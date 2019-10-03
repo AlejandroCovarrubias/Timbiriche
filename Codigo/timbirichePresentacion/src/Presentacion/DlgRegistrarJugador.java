@@ -1,7 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * DlgRegistrarJugador.java
  */
 package Presentacion;
 
@@ -13,17 +11,17 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
- *
- * @author Alejandro Galindo
+ * Cuadro de dialogo que registra la informacion de un jugador.
+ * @author Alejandro Galindo, Francisco Felix, Cesar Acactitla
  */
 public class DlgRegistrarJugador extends javax.swing.JDialog {
 
-    MenuInicial menu;
-    String avatarSeleccionado;
-    List<ImageIcon> avatares = new ArrayList<>();
+    private MenuInicial menu;
+    private String avatarSeleccionado;
+    private List<ImageIcon> avatares = new ArrayList<>();
 
     /**
-     * Creates new form PnlRegistrarJugador
+     * Crea PnlRegistrarJugador
      */
     public DlgRegistrarJugador(MenuInicial parent, boolean modal) {
         super(parent, modal);
@@ -188,6 +186,10 @@ public class DlgRegistrarJugador extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * MouseClicked para cada avatar.
+     * @param evt 
+     */
     private void avt1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_avt1MouseClicked
         establecerAvatar((ImageIcon) avt1.getIcon(), "poroPorito.png");
     }//GEN-LAST:event_avt1MouseClicked
@@ -204,11 +206,20 @@ public class DlgRegistrarJugador extends javax.swing.JDialog {
         establecerAvatar((ImageIcon) avt4.getIcon(), "pollitoEnojado.png");
     }//GEN-LAST:event_avt4MouseClicked
 
+    /**
+     * Metodo que establece el avatar del jugador.
+     * @param avatar
+     * @param nombreAvatar 
+     */
     private void establecerAvatar(ImageIcon avatar, String nombreAvatar) {
         this.avtJugador.setIcon(avatar);
         this.avatarSeleccionado = nombreAvatar;
     }
 
+    /**
+     * ActionEvent de JButton confirmar que confirma el registro.
+     * @param evt 
+     */
     private void confirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmarActionPerformed
         String mensaje = "";
         if (avtJugador.getIcon() == null) {

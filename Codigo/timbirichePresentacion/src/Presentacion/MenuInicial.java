@@ -1,7 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * MenuInicial.java
  */
 package Presentacion;
 
@@ -12,16 +10,22 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Alejandro Galindo
+ * @author Alejandro Galindo, Francisco Felix, Cesar Acactitla
  */
 public class MenuInicial extends javax.swing.JFrame {
     
-    Jugador jugador;
+    /**
+     * Instancia de jugador registrado.
+     */
+    private Jugador jugador;
     
+    /**
+     * Instancia de si mismo.
+     */
     private static MenuInicial instance;
 
     /**
-     * Creates new form MenuInicial
+     * Crea MenuInicial.
      */
     private MenuInicial(Jugador jugador) {
         initComponents();
@@ -38,6 +42,12 @@ public class MenuInicial extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Metodo estatico que regresa la instancia de MenuInicial.
+     * Si la instancia es nula, la inicializa.
+     * @param jugador
+     * @return 
+     */
     public static MenuInicial getInstance(Jugador jugador){
         if(instance == null){
             instance = new MenuInicial(jugador);
@@ -46,10 +56,18 @@ public class MenuInicial extends javax.swing.JFrame {
         return instance;
     }
 
+    /**
+     * Retorna el jugador ingresado.
+     * @return 
+     */
     public Jugador getJugador() {
         return jugador;
     }
 
+    /**
+     * Establece el jugador ingresado. Su avatar y su nombre.
+     * @param jugador 
+     */
     public void setJugador(Jugador jugador) {
         this.jugador = jugador;
         this.avatarIcon.setIcon(new ImageIcon("src\\Avatares\\" + jugador.getRutaAvatar()));
@@ -173,15 +191,29 @@ public class MenuInicial extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * ActionEvent de JButton unirPartida.
+     * @param evt 
+     */
     private void unirPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_unirPartidaActionPerformed
         JOptionPane.showMessageDialog(this, "Work in progress...", "WIP", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_unirPartidaActionPerformed
 
+    /**
+     * ActionEvent de JButton configurarTablero.
+     * Configura las preferencias del jugador ingresado.
+     * @param evt 
+     */
     private void configurarTableroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_configurarTableroActionPerformed
         FrmPreferencias conf = FrmPreferencias.getInstance(this);
         conf.setVisible(true);
     }//GEN-LAST:event_configurarTableroActionPerformed
 
+    /**
+     * ActionEvent de JButton cerrarTimbiriche.
+     * Cierra el sistema despues de confirmar la accion.
+     * @param evt 
+     */
     private void cerrarTimbiricheActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cerrarTimbiricheActionPerformed
         int confirm = JOptionPane.showConfirmDialog(this, "¿Seguro que quiere cerrar el juego?", "Confirmacion", JOptionPane.YES_NO_OPTION);
         
@@ -190,6 +222,11 @@ public class MenuInicial extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cerrarTimbiricheActionPerformed
 
+    /**
+     * ActionEvent de JButton crearSala.
+     * Llama a FrmCreadorSala.
+     * @param evt 
+     */
     private void crearSalaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearSalaActionPerformed
         FrmCreadorDeSala frmCreador = FrmCreadorDeSala.getInstance(jugador);
         this.dispose();
@@ -197,10 +234,11 @@ public class MenuInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_crearSalaActionPerformed
 
     /**
-     * @param args the command line arguments
+     * Metodo principal
+     * @param args 
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
+        /* Establece Look and Feel del sistema */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
@@ -217,11 +255,8 @@ public class MenuInicial extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(MenuInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
-        /* Create and display the form */
+        /* Crea y despliega MenuInicial*/
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MenuInicial(null).setVisible(true);

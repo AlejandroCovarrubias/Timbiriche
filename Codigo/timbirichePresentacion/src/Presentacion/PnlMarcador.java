@@ -1,36 +1,35 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * PnlMarcador.java
  */
 package Presentacion;
 
 import Dominio.Jugador;
-import Dominio.Marcador;
+import Dominio.Sala;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import javax.swing.JPanel;
 
 /**
- *
+ * Panel que despliega la informacion de los jugadores de la sala y sus
+ * puntajes.
+ * 
  * @author Alejandro Galindo
  */
-public class PnlMarcador extends javax.swing.JPanel implements ComponenteSala, Runnable {
+public class PnlMarcador extends javax.swing.JPanel implements ComponenteSala {
 
-    private Marcador marcador;
+    private Sala sala;
 
     private List<javax.swing.JPanel> pnlsFondo;
     private List<PnlJugador> pnlsJugador;
 
     /**
-     * Creates new form PnlMarcador
+     * Crea PnlMarcador
      *
-     * @param marcador
+     * @param sala
      */
-    public PnlMarcador(Marcador marcador) {
-        this.marcador = marcador;
+    public PnlMarcador(Sala sala) {
+        this.sala = sala;
         this.pnlsJugador = new ArrayList<>();
         this.pnlsFondo = new ArrayList<>();
         initComponents();
@@ -41,19 +40,26 @@ public class PnlMarcador extends javax.swing.JPanel implements ComponenteSala, R
         this.pnlsFondo.add(pnlJugador3Fondo);
         this.pnlsFondo.add(pnlJugador4Fondo);
         
-        for (JPanel fondo : pnlsFondo) {
-            fondo.setVisible(false);
+        Jugador lider = this.sala.getMarcador().getLider();
+        for (int i = 0; i < this.pnlsFondo.size(); i++) {
+            pnlsFondo.get(i).setBackground(Color.decode(lider.getPreferencia().getColores().get(i)));
+            pnlsFondo.get(i).setVisible(false);
         }
         
         establecerPnlsDeMarcador();
 
     }
 
+    /**
+     * Establece los paneles necesarios segun la cantidad de jugadores en la
+     * sala (o el marcador).
+     */
     private synchronized void establecerPnlsDeMarcador() {
-        for (int i = 0; i < this.marcador.getJugadores().size(); i++) {
-            PnlJugador pnlJugador = new PnlJugador(this.marcador.getJugadores().get(i));
-//            pnlJugador.setSize(pnlsFondo.get(i).getSize());
+        List<Jugador> jugadores = this.sala.getMarcador().getJugadores();
+        for (int i = 0; i < jugadores.size(); i++) {
+            PnlJugador pnlJugador = new PnlJugador(this.sala.getMarcador().getJugadores().get(i));
             pnlJugador.setBorder(pnlsFondo.get(i).getBorder());
+            pnlJugador.setBackground(pnlsFondo.get(i).getBackground());
             pnlsFondo.get(i).add(pnlJugador);
             pnlsFondo.get(i).setVisible(true);
             pnlsJugador.add(pnlJugador);
@@ -61,14 +67,7 @@ public class PnlMarcador extends javax.swing.JPanel implements ComponenteSala, R
             pnlJugador.setVisible(true);
             pnlJugador.repaint();
         }
-    }
-
-    public Marcador getMarcador() {
-        return marcador;
-    }
-
-    public void setMarcador(Marcador marcador) {
-        this.marcador = marcador;
+        this.repaint();
     }
 
     /**
@@ -177,6 +176,9 @@ public class PnlMarcador extends javax.swing.JPanel implements ComponenteSala, R
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Metodo que actualiza los paneles del marcador.
+     */
     @Override
     public void actualizar() {
         establecerPnlsDeMarcador();
@@ -189,9 +191,4 @@ public class PnlMarcador extends javax.swing.JPanel implements ComponenteSala, R
     private javax.swing.JPanel pnlJugador3Fondo;
     private javax.swing.JPanel pnlJugador4Fondo;
     // End of variables declaration//GEN-END:variables
-
-    @Override
-    public void run() {
-        establecerPnlsDeMarcador();
-    }
 }

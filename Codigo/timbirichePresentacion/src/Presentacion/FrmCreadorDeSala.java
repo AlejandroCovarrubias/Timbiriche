@@ -1,7 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * FrmCreadorDeSala.java
  */
 package Presentacion;
 
@@ -9,7 +7,7 @@ import Dominio.Jugador;
 
 /**
  *
- * @author Alejandro Galindo
+ * @author Alejandro Galindo, Francisco Felix, Cesar Acactitla
  */
 public class FrmCreadorDeSala extends javax.swing.JFrame {
     
@@ -18,7 +16,7 @@ public class FrmCreadorDeSala extends javax.swing.JFrame {
     private int tamanio;
 
     /**
-     * Creates new form FrmCreadorDeSala
+     * Crea FrmCreadorSala
      */
     private FrmCreadorDeSala(Jugador jugador) {
         initComponents();
@@ -156,7 +154,8 @@ public class FrmCreadorDeSala extends javax.swing.JFrame {
     }//GEN-LAST:event_cuatroButtonActionPerformed
 
     private void crearSala(){
-        FrmSala sala = (FrmSala) FabricaSala.creaSala(jugador, tamanio);
+        FabricaSala fbrSala = new FabricaSala();
+        FrmSala sala = (FrmSala) fbrSala.creaSala(jugador, tamanio);
         Thread tr = new Thread(sala);
         tr.start();
         sala.setVisible(true);

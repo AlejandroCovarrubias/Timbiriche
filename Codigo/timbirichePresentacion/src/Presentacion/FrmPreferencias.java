@@ -1,7 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * FrmPreferencias.java
  */
 package Presentacion;
 
@@ -12,19 +10,32 @@ import java.util.List;
 
 /**
  *
- * @author Alejandro Galindo
+ * @author Alejandro Galindo, Francisco Felix, Cesar Acactitla
  */
 public class FrmPreferencias extends javax.swing.JFrame {
 
-    MenuInicial menu;
+    /**
+     * Instancia de MenuInicial que lo invoca
+     */
+    private MenuInicial menu;
 
-    Preferencia pref;
-    List<PnlPreferencias> pnls = new ArrayList<>();
+    /**
+     * Instancia de preferencia que se va a crear
+     */
+    private Preferencia pref;
+    
+    /**
+     * Coleccion de paneles de preferencias.
+     */
+    private List<PnlPreferencias> pnls = new ArrayList<>();
 
+    /**
+     * Instancia estatica y unica de si mismo.
+     */
     private static FrmPreferencias instance;
 
     /**
-     * Creates new form Configuracion
+     * Crea FrmPreferencias
      */
     private FrmPreferencias(MenuInicial menu) {
         this.menu = menu;
@@ -47,6 +58,12 @@ public class FrmPreferencias extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Metodo estatico que regresa la unica instancia de FrmPreferencias.
+     * Si esta instancia no ha sido creada, la crea.
+     * @param menu
+     * @return 
+     */
     public static FrmPreferencias getInstance(MenuInicial menu) {
         if (instance == null) {
             instance = new FrmPreferencias(menu);
@@ -123,6 +140,10 @@ public class FrmPreferencias extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Guarda preferencias.
+     * @param evt 
+     */
     private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
         //Codigo para que haga algo
 
@@ -141,6 +162,10 @@ public class FrmPreferencias extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_guardarActionPerformed
 
+    /**
+     * Cierra FrmPreferencias.
+     * @param evt 
+     */
     private void cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarActionPerformed
         this.dispose();
     }//GEN-LAST:event_cancelarActionPerformed

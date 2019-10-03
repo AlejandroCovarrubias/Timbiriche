@@ -7,11 +7,10 @@ package Dominio;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 /**
  *
- * @author Alejandro Galindo
+ * @author Alejandro Galindo, Francisco Felix, Cesar Acactitla
  */
 public class Marcador {
     private int tamanio;
@@ -51,15 +50,5 @@ public class Marcador {
     
     public void turnar(){
         Collections.shuffle(this.jugadores);
-    }
-    
-    public void agregarJugador(Jugador jugador){
-        if(this.tamanio < this.jugadores.size()){
-            this.jugadores.add(jugador);
-        }
-    }
-    
-    public void eliminarJugador(Jugador jugador){
-        this.jugadores.remove(jugador);
     }
 }
