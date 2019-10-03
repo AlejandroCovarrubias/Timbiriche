@@ -1,25 +1,26 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * PnlJugador.java
  */
 package Presentacion;
 
 import Dominio.Jugador;
-import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.ImageIcon;
 
 /**
- *
+ * JPanel que despliega la informacion de un jugador.
+ * 
  * @author Alejandro Galindo
  */
 public class PnlJugador extends javax.swing.JPanel {
-    
+
+    /**
+     * Instancia del jugador al desplegar.
+     */
     private Jugador jugador;
 
     /**
-     * Creates new form PnlJugador
+     * Crea PnlJugador.
      */
     public PnlJugador(Jugador jugador) {
         initComponents();
@@ -30,13 +31,20 @@ public class PnlJugador extends javax.swing.JPanel {
         }
         this.labelNick.setText(this.jugador.getNombre());
         this.labelPtj.setText(this.jugador.getPuntaje() + "");
-        this.setBackground(Color.decode(this.jugador.getPreferencia().getColores().get(0)));
     }
     
+    /**
+     * Establece el jugador.
+     * @param jugador 
+     */
     public void setJugador(Jugador jugador){
         this.jugador = jugador;
     }
     
+    /**
+     * Establece el puntaje de un jugador.
+     * @param puntaje 
+     */
     public void setPuntaje(int puntaje){
         this.jugador.setPuntaje(puntaje);
         this.labelPtj.setText(puntaje + "");
@@ -91,7 +99,6 @@ public class PnlJugador extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel labelAvt;

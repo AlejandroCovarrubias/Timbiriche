@@ -1,7 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * PnlPreferencias.java
  */
 package Presentacion;
 
@@ -11,12 +9,12 @@ import javax.swing.JPanel;
 
 /**
  *
- * @author Alejandro Galindo
+ * @author Alejandro Galindo, Francisco Felix, Cesar Acactitla
  */
 public class PnlPreferencias extends javax.swing.JPanel {
 
     /**
-     * Creates new form panelConfiguracion
+     * Crea panelConfiguracion
      */
     public PnlPreferencias(String color) {
         initComponents();
@@ -102,6 +100,10 @@ public class PnlPreferencias extends javax.swing.JPanel {
         this.panelColorEscogido.setBackground(color);
     }//GEN-LAST:event_escogerColorLineaActionPerformed
 
+    /**
+     * Regresa el color escogido.
+     * @return 
+     */
     public Color getColorEscogido() {
         return panelColorEscogido.getBackground();
     }

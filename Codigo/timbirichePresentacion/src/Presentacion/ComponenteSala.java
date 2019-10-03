@@ -1,14 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * ComponenteSala.java
  */
 package Presentacion;
 
 /**
- *
- * @author Alejandro Galindo
+ * Interfaz que contrata a ComponenteSala.
+ * Lo implementan Compuestos o Componentes de una sala.
+ * 
+ * @author Alejandro Galindo, Francisco Felix, Cesar Acactitla
  */
 public interface ComponenteSala {
+    
+    /**
+     * Metodo comun que actualiza la composicion del ComponenteSala.
+     */
     void actualizar();
 }

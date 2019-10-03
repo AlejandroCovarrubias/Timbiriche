@@ -1,7 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * FormaPolygon.java
  */
 package Presentacion;
 
@@ -11,7 +9,9 @@ import java.awt.Graphics;
 import java.awt.Polygon;
 
 /**
- *
+ * Clase que renderiza una Forma en PnlTablero segun su posicion, tamanio y
+ * quien hizo la linea.
+ * 
  * @author Alejandro Galindo
  */
 public class FormaPolygon{
@@ -19,7 +19,7 @@ public class FormaPolygon{
     private Color color;
     private Polygon shape;
     
-    public FormaPolygon(Color color, Forma forma){
+    public FormaPolygon(Forma forma, Color color){
         this.color = color;
         this.forma = forma;
         this.shape = new Polygon();
