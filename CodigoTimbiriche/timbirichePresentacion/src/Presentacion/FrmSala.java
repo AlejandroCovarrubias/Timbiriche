@@ -302,7 +302,7 @@ public class FrmSala extends javax.swing.JFrame implements ComponenteSala, Runna
             }
         }
         this.pnlFondoTablero.getComponent(0).setVisible(true);
-
+        
 // Experimiento de partida
 //        for (int j = 0; j < this.sala.getMarcador().getJugadores().size(); j++) {
 //            if (j == 0) {
