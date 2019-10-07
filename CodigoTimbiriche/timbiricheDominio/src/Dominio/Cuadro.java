@@ -9,28 +9,28 @@ package Dominio;
  */
 public class Cuadro extends FormaJuego {
 
-    private Linea[] lineasHorizontal;
-    private Linea[] lineasVertical;
+    private Linea superior, inferior, izquierda, derecha;
 
-    public Cuadro(Linea[] lineasHorizontal, Linea[] lineasVertical, int width, int height, int x, int y, Jugador jugador) {
-        super(width, height, x, y, jugador);
-        this.lineasHorizontal = lineasHorizontal;
-        this.lineasVertical = lineasVertical;
+    public Cuadro(Linea superior, Linea inferior, Linea izquierda, 
+            Linea derecha, int width, int height, int x, int y) {
+        super(width, height, x, y);
+        this.superior = superior;
+        this.inferior = inferior;
+        this.izquierda = izquierda;
+        this.derecha = derecha;
     }
-
-    public Linea[] getLineasHorizontal() {
-        return lineasHorizontal;
+    
+    public char obtenerInicial(){
+        return this.getJugador().getNombre().charAt(0);
     }
-
-    public void setLineasHorizontal(Linea[] lineasHorizontal) {
-        this.lineasHorizontal = lineasHorizontal;
+    
+    public boolean tieneLinea(Linea lineaBuscada){
+        return superior.equals(lineaBuscada) || inferior.equals(lineaBuscada) ||
+                izquierda.equals(lineaBuscada) || derecha.equals(lineaBuscada);
     }
-
-    public Linea[] getLineasVertical() {
-        return lineasVertical;
+    
+    public boolean estaCompleto(){
+        return superior.getJugador() != null && inferior.getJugador() != null && 
+                izquierda.getJugador() != null && derecha.getJugador() != null;
     }
-
-    public void setLineasVertical(Linea[] lineasVertical) {
-        this.lineasVertical = lineasVertical;
-    }    
 }

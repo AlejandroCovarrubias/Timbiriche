@@ -3,11 +3,13 @@
  */
 package timbirichenegocios;
 
+import Dominio.Cuadro;
 import Dominio.Jugador;
 import Dominio.Linea;
 import Dominio.Marcador;
 import Dominio.Sala;
 import Dominio.Tablero;
+import java.util.List;
 
 /**
  *
@@ -18,6 +20,7 @@ public interface ITimbiriche {
     Sala actualizarSala(Sala sala);
     Jugador[] buscarJugadores(Sala sala);
     String agregarLinea(Linea forma, Jugador jugador);
+    void verficarMovimiento(List<Cuadro> cuadros, Linea linea, Jugador jugador);
     void buscarMovimiento(Tablero tablero, Marcador marcador, int turno);
     int cantidadDeLineasConJugador(Tablero tablero);
 }

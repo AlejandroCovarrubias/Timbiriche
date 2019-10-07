@@ -3,11 +3,13 @@
  */
 package timbirichenegocios;
 
+import Dominio.Cuadro;
 import Dominio.Jugador;
 import Dominio.Linea;
 import Dominio.Marcador;
 import Dominio.Sala;
 import Dominio.Tablero;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -78,7 +80,7 @@ class ControlJuego {
         List<Linea> lineasVerticales = tablero.getLineasVerticales();
         Linea lineaIndex = null;
 
-        int rnd = (int) (Math.random() * 2+1);
+        int rnd = (int) (Math.random() * 2 + 1);
 
         if (rnd == 1) {
             while (lineaIndex == null) {
@@ -100,22 +102,41 @@ class ControlJuego {
             }
         }
     }
-    
-    public int cantidadDeLineasConJugador(Tablero tablero){
+
+    public int cantidadDeLineasConJugador(Tablero tablero) {
         int lineasVerticales = 0, lineasHorizontales = 0;
-        
+
         for (Linea lineaHorizontal : tablero.getLineasHorizontales()) {
-            if(lineaHorizontal.getJugador() != null){
+            if (lineaHorizontal.getJugador() != null) {
                 lineasHorizontales++;
             }
         }
-        
+
         for (Linea lineaVertical : tablero.getLineasVerticales()) {
-            if(lineaVertical.getJugador() != null){
+            if (lineaVertical.getJugador() != null) {
                 lineasVerticales++;
             }
         }
-        
+
         return lineasVerticales + lineasHorizontales;
+    }
+
+    public void verificarMovimiento(List<Cuadro> cuadros, Linea linea, Jugador jugador) {
+        List<Cuadro> cuadrosTemporal = new ArrayList<>();
+
+        for (Cuadro cuadro : cuadros) {
+            if (cuadro.tieneLinea(linea)) {
+                if(cuadro.getJugador() == null){
+                    cuadrosTemporal.add(cuadro);
+                }
+            }
+        }
+
+        for (Cuadro cuadro : cuadrosTemporal) {
+            if (cuadro.estaCompleto()) {
+                cuadro.setJugador(jugador);
+                jugador.setPuntaje(jugador.getPuntaje() + 1);
+            }
+        }
     }
 }

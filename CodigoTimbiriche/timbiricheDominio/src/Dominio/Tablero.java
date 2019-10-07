@@ -12,7 +12,7 @@ import java.util.List;
  * @author Alejandro Galindo, Francisco Felix, Cesar Acactitla
  */
 public class Tablero {
-    private int ancho, alto;
+    private int dimension;
     private List<Linea> lineasHorizontales;
     private List<Linea> lineasVerticales;
     private List<Cuadro> cuadros;
@@ -26,40 +26,31 @@ public class Tablero {
         
         switch (tamanio) {
             case 2:
-                this.ancho = this.alto = 10;
+                this.dimension = 10;
                 break;
             case 3:
-                this.ancho = this.alto = 20;
+                this.dimension = 20;
                 break;
             case 4:
-                this.ancho = this.alto = 40;
+                this.dimension = 40;
                 break;
         }
     }
 
-    public Tablero(int ancho, int alto, List<Linea> lineasHorizontales, List<Linea> lineasVerticales, List<Cuadro> cuadros, List<Punto> puntos) {
-        this.ancho = ancho;
-        this.alto = alto;
+    public Tablero(int dimension, List<Linea> lineasHorizontales, List<Linea> lineasVerticales, List<Cuadro> cuadros, List<Punto> puntos) {
+        this.dimension = dimension;
         this.lineasHorizontales = lineasHorizontales;
         this.lineasVerticales = lineasVerticales;
         this.cuadros = cuadros;
         this.puntos = puntos;
     }
 
-    public int getAncho() {
-        return ancho;
+    public int getDimension() {
+        return dimension;
     }
 
-    public void setAncho(int ancho) {
-        this.ancho = ancho;
-    }
-
-    public int getAlto() {
-        return alto;
-    }
-
-    public void setAlto(int alto) {
-        this.alto = alto;
+    public void setDimension(int dimension) {
+        this.dimension = dimension;
     }
 
     public List<Linea> getLineasHorizontales() {

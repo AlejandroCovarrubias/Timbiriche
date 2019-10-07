@@ -3,6 +3,7 @@
  */
 package timbirichenegocios;
 
+import Dominio.Cuadro;
 import Dominio.FormaJuego;
 import Dominio.Jugador;
 import Dominio.Linea;
@@ -48,5 +49,10 @@ public class TimbiricheFacade implements ITimbiriche{
     @Override
     public int cantidadDeLineasConJugador(Tablero tablero) {
         return control.cantidadDeLineasConJugador(tablero);
+    }
+
+    @Override
+    public void verficarMovimiento(List<Cuadro> cuadros, Linea linea, Jugador jugador) {
+        control.verificarMovimiento(cuadros, linea, jugador);
     }
 }
