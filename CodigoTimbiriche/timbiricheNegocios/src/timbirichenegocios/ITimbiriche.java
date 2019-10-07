@@ -23,4 +23,5 @@ public interface ITimbiriche {
     void verficarMovimiento(List<Cuadro> cuadros, Linea linea, Jugador jugador);
     void buscarMovimiento(Tablero tablero, Marcador marcador, int turno);
     int cantidadDeLineasConJugador(Tablero tablero);
+    void turnarJugadores(Marcador marcador);
 }

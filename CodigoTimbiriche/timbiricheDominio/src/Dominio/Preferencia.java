@@ -14,9 +14,8 @@ public class Preferencia {
     
     private List<String> colores;
 
-    public Preferencia(String colorLinea1, String colorLinea2, String colorLinea3, String colorLinea4) {
+    public Preferencia(String colorLinea2, String colorLinea3, String colorLinea4) {
         colores = new ArrayList<>();
-        colores.add(colorLinea1);
         colores.add(colorLinea2);
         colores.add(colorLinea3);
         colores.add(colorLinea4);

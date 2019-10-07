@@ -41,6 +41,8 @@ public class PnlTablero extends javax.swing.JPanel implements ComponenteSala, Mo
     private Jugador jugador;
 
     private Linea lineaTemp = null;
+    
+    private PnlMarcador pnlMarcador;
 
     /**
      * Crea el pnlTablero
@@ -81,9 +83,8 @@ public class PnlTablero extends javax.swing.JPanel implements ComponenteSala, Mo
         //itera en todas las lineas horizontales del tablero y las dibuja
         for (Linea lineaHorizontal : this.sala.getTablero().getLineasHorizontales()) {
             if (lineaHorizontal.getJugador() != null) {
-                int turno = this.sala.getMarcador().getJugadores().indexOf(lineaHorizontal.getJugador());
                 FormaPolygon puntoPl = new FormaPolygon(lineaHorizontal,
-                        Color.decode(this.jugador.getPreferencia().getColores().get(turno)));
+                        Color.decode(lineaHorizontal.getJugador().getColor()));
                 puntoPl.renderizar(g);
             }
         }
@@ -91,34 +92,35 @@ public class PnlTablero extends javax.swing.JPanel implements ComponenteSala, Mo
         //itera en todas las lineas verticales del tablero y las dibuja
         for (Linea lineaVertical : this.sala.getTablero().getLineasVerticales()) {
             if (lineaVertical.getJugador() != null) {
-                int turno = this.sala.getMarcador().getJugadores().indexOf(lineaVertical.getJugador());
                 FormaPolygon puntoPl = new FormaPolygon(lineaVertical,
-                        Color.decode(this.jugador.getPreferencia().getColores().get(turno)));
+                        Color.decode(lineaVertical.getJugador().getColor()));
                 puntoPl.renderizar(g);
             }
         }
         
-        g2.setFont(new Font("TimesRoman", Font.BOLD, 20));
-        g2.setColor(Color.black);
-
+        int tamanio = 200 / this.sala.getTablero().getDimension();
         //itera en todos los cuadrados del tablero y los dibuja
         for (Cuadro cuadro : this.sala.getTablero().getCuadros()) {
-            if(cuadro.getJugador() != null){
-                int turno = this.sala.getMarcador().getJugadores().indexOf(cuadro.getJugador());
-                FormaPolygon cuadroPl = new FormaPolygon(cuadro, 
-                    Color.decode(this.jugador.getPreferencia().getColores().get(turno)));
+            if (cuadro.getJugador() != null) {
+                FormaPolygon cuadroPl = new FormaPolygon(cuadro,
+                        Color.decode(cuadro.getJugador().getColor()));
                 cuadroPl.renderizar(g);
-                
-                g2.drawString(String.valueOf(cuadro.obtenerInicial()), cuadro.getX() + 20, cuadro.getY() + 20);
-                
+
+                g2.setFont(new Font("Arial", Font.BOLD, tamanio));
+                g2.setColor(Color.black);
+                g2.drawString(
+                        String.valueOf(cuadro.obtenerInicial()).toUpperCase(), 
+                        cuadro.getX() + cuadro.getWidth()/2, 
+                        cuadro.getY() + cuadro.getHeight()/2);
+
             }
         }
 
         // FormaTemporal sirve para renderizar la vista previa de la linea
         // que el jugador puede colocar.
         if (lineaTemp != null) {
-            FormaPolygon lineaTempPl = new FormaPolygon(lineaTemp, 
-                    Color.decode(this.jugador.getPreferencia().getColores().get(0)));
+            FormaPolygon lineaTempPl = new FormaPolygon(lineaTemp,
+                    Color.decode(this.jugador.getColor()));
             lineaTempPl.renderizar(g);
         }
     }
@@ -194,8 +196,16 @@ public class PnlTablero extends javax.swing.JPanel implements ComponenteSala, Mo
             String agregarLinea = control.agregarLinea(lineaEncontrada, jugador);
             if (!agregarLinea.equalsIgnoreCase("")) {
                 JOptionPane.showMessageDialog(this, "Escoge una linea que no haya sido marcada anteriormente", "Error de juego", JOptionPane.INFORMATION_MESSAGE);
-            }else{
+            } else {
                 control.verficarMovimiento(this.sala.getTablero().getCuadros(), lineaEncontrada, jugador);
+                
+                for (int i = 0; i < this.sala.getMarcador().getJugadores().size(); i++) {
+                    if(!this.sala.getMarcador().getJugadores().get(i).equals(this.jugador)){
+                        control.buscarMovimiento(this.sala.getTablero(), this.sala.getMarcador(), i);
+                    }
+                }
+
+                //Mandar notificacion a FrmSala para que actualice PnlMarcador
             }
         }
 
