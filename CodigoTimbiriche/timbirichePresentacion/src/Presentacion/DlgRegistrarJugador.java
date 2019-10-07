@@ -234,8 +234,9 @@ public class DlgRegistrarJugador extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, mensaje, "Registro de jugador", JOptionPane.INFORMATION_MESSAGE);
         } else {
             Jugador jugador = new Jugador(this.nickname.getText(), this.avatarSeleccionado);
-            Preferencia pref = new Preferencia("#0F0F0", "#FF0000", "#0000FF", "#00FF00");
+            Preferencia pref = new Preferencia("#FF0000", "#0000FF", "#00FF00");
             jugador.setPreferencia(pref);
+            jugador.setColor("#0F0F0");
             menu.setJugador(jugador);
             this.dispose();
         }

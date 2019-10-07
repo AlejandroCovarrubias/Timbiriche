@@ -279,12 +279,6 @@ public class FrmSala extends javax.swing.JFrame implements ComponenteSala, Runna
                         jugs = this.timbiriche.buscarJugadores(this.sala);
                     }
                 } else {
-                    //En cuanto la sala se llena, se desordenan los jugadores?
-                    //y empieza la partida
-                    //Esto lo deberia hacer control
-
-                    //this.sala.getMarcador().turnar();
-                    //((PnlMarcador) this.pnlFondoMarcador.getComponent(0)).actualizar();
                     this.lblInfo.setText("¡A jugar!  ");
                     i = 0;
                 }
@@ -303,29 +297,8 @@ public class FrmSala extends javax.swing.JFrame implements ComponenteSala, Runna
         }
         this.pnlFondoTablero.getComponent(0).setVisible(true);
         
-// Experimiento de partida
-//        for (int j = 0; j < this.sala.getMarcador().getJugadores().size(); j++) {
-//            if (j == 0) {
-//                int lineas = this.sala.getTablero().getLineasHorizontales().size() + this.sala.getTablero().getLineasVerticales().size();
-//                int time = 10;
-//
-//                while (time > 0) {
-//                    this.lblTimer.setText(time + "");
-//                    
-//                    if(lineas < timbiriche.cantidadDeLineasConJugador(this.sala.getTablero())){
-//                        break;
-//                    }
-//                    
-//                    time--;
-//                }
-//            } else {
-//                timbiriche.buscarMovimiento(this.sala.getTablero(), this.sala.getMarcador(), i);
-//                ((PnlTablero) this.pnlFondoTablero.getComponent(0)).actualizar();
-//            }
-//            
-//            if(j+1 == this.sala.getMarcador().getJugadores().size()){
-//                j = 0;
-//            }
-//        }
+        timbiriche.turnarJugadores(this.sala.getMarcador());
+        ((PnlMarcador) this.pnlFondoMarcador.getComponent(0)).establecerColoresPreferenciales();
+        ((PnlMarcador) this.pnlFondoMarcador.getComponent(0)).actualizar();
     }
 }

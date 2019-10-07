@@ -4,6 +4,7 @@
 package Presentacion;
 
 import Dominio.Jugador;
+import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.ImageIcon;
 
@@ -31,6 +32,9 @@ public class PnlJugador extends javax.swing.JPanel {
         }
         this.labelNick.setText(this.jugador.getNombre());
         this.labelPtj.setText(this.jugador.getPuntaje() + "");
+        if(this.jugador.getColor() != null){
+            this.setBackground(Color.decode(this.jugador.getColor()));
+        }
     }
     
     /**

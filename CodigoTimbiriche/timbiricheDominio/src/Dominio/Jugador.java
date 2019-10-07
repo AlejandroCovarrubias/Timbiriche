@@ -14,6 +14,7 @@ public class Jugador {
     private String rutaAvatar;
     private int puntaje;
     private Preferencia preferencia;
+    private String color;
 
     public Jugador(String nombre, String rutaAvatar) {
         this.nombre = nombre;
@@ -50,6 +51,14 @@ public class Jugador {
 
     public void setPreferencia(Preferencia preferencia) {
         this.preferencia = preferencia;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 
     @Override

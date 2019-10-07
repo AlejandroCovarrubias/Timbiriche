@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JPanel;
 
 /**
  * Panel que despliega la informacion de los jugadores de la sala y sus
@@ -40,9 +41,7 @@ public class PnlMarcador extends javax.swing.JPanel implements ComponenteSala {
         this.pnlsFondo.add(pnlJugador3Fondo);
         this.pnlsFondo.add(pnlJugador4Fondo);
         
-        Jugador lider = this.sala.getMarcador().getLider();
         for (int i = 0; i < this.pnlsFondo.size(); i++) {
-            pnlsFondo.get(i).setBackground(Color.decode(lider.getPreferencia().getColores().get(i)));
             pnlsFondo.get(i).setVisible(false);
         }
         
@@ -57,9 +56,13 @@ public class PnlMarcador extends javax.swing.JPanel implements ComponenteSala {
     private synchronized void establecerPnlsDeMarcador() {
         List<Jugador> jugadores = this.sala.getMarcador().getJugadores();
         for (int i = 0; i < jugadores.size(); i++) {
-            PnlJugador pnlJugador = new PnlJugador(this.sala.getMarcador().getJugadores().get(i));
+            pnlsFondo.get(i).removeAll();
+
+            PnlJugador pnlJugador = new PnlJugador(jugadores.get(i));
             pnlJugador.setBorder(pnlsFondo.get(i).getBorder());
-            pnlJugador.setBackground(pnlsFondo.get(i).getBackground());
+            if(jugadores.get(i).getColor() != null){
+                pnlJugador.setBackground(Color.decode(jugadores.get(i).getColor()));
+            }
             pnlsFondo.get(i).add(pnlJugador);
             pnlsFondo.get(i).setVisible(true);
             pnlsJugador.add(pnlJugador);
@@ -68,6 +71,19 @@ public class PnlMarcador extends javax.swing.JPanel implements ComponenteSala {
             pnlJugador.repaint();
         }
         this.repaint();
+    }
+    
+    public synchronized void establecerColoresPreferenciales(){
+        List<Jugador> jugadores = this.sala.getMarcador().getJugadores();
+        Jugador lider = this.sala.getMarcador().getLider();
+        
+        int contadorColor = 0;
+        for (int i = 0; i < jugadores.size(); i++) {
+            if(!jugadores.get(i).equals(lider)){
+                jugadores.get(i).setColor(lider.getPreferencia().getColores().get(contadorColor));
+                contadorColor++;
+            }
+        }
     }
 
     /**

@@ -23,7 +23,7 @@ public class FrmPreferencias extends javax.swing.JFrame {
      * Instancia de preferencia que se va a crear
      */
     private Preferencia pref;
-    
+
     /**
      * Coleccion de paneles de preferencias.
      */
@@ -45,24 +45,27 @@ public class FrmPreferencias extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setResizable(false);
 
-        for (int i = 0; i < 4; i++) {
-            PnlPreferencias pnl = new PnlPreferencias(menu.getJugador().getPreferencia().getColores().get(i));
+        PnlPreferencias pnlJugador = new PnlPreferencias(menu.getJugador().getColor());
+        pnls.add(pnlJugador);
+        tabbed.add(pnlJugador);
+        tabbed.setTitleAt(0, "Tu");
+
+        List<String> colores = menu.getJugador().getPreferencia().getColores();
+
+        for (int i = 1; i <= colores.size(); i++) {
+            PnlPreferencias pnl = new PnlPreferencias(colores.get(i-1));
             pnls.add(pnl);
             tabbed.add(pnl);
-
-            if (i == 0) {
-                tabbed.setTitleAt(i, "Tu");
-            } else {
-                tabbed.setTitleAt(i, "Jugador" + (i + 1));
-            }
+            tabbed.setTitleAt(i, "Jugador" + (i + 1));
         }
     }
 
     /**
-     * Metodo estatico que regresa la unica instancia de FrmPreferencias.
-     * Si esta instancia no ha sido creada, la crea.
+     * Metodo estatico que regresa la unica instancia de FrmPreferencias. Si
+     * esta instancia no ha sido creada, la crea.
+     *
      * @param menu
-     * @return 
+     * @return
      */
     public static FrmPreferencias getInstance(MenuInicial menu) {
         if (instance == null) {
@@ -142,7 +145,8 @@ public class FrmPreferencias extends javax.swing.JFrame {
 
     /**
      * Guarda preferencias.
-     * @param evt 
+     *
+     * @param evt
      */
     private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
         //Codigo para que haga algo
@@ -156,7 +160,8 @@ public class FrmPreferencias extends javax.swing.JFrame {
         color = pnls.get(3).getColorEscogido();
         String colorHex4 = String.format("#%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue());
 
-        pref = new Preferencia(colorHex1, colorHex2, colorHex3, colorHex4);
+        this.menu.getJugador().setColor(colorHex1);
+        pref = new Preferencia(colorHex2, colorHex3, colorHex4);
 
         this.menu.getJugador().setPreferencia(pref);
         this.dispose();
@@ -164,7 +169,8 @@ public class FrmPreferencias extends javax.swing.JFrame {
 
     /**
      * Cierra FrmPreferencias.
-     * @param evt 
+     *
+     * @param evt
      */
     private void cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarActionPerformed
         this.dispose();
