@@ -38,12 +38,12 @@ public class FabricaSala {
         Sala sala = control.crearSala(marcador, tamanio);
         
         //Crea mi frm de sala
-        FrmSala frmSala = FrmSala.getInstance(sala);
+        FrmSala frmSala = new FrmSala(sala);
         
         //Lo compone
         frmSala.agregarComponenteDeSala(new PnlMarcador(sala));
         frmSala.agregarComponenteDeSala(new PnlTablero(sala, lider));
-        frmSala.agregarComponenteDeSala(new PnlOpt());
+        frmSala.agregarComponenteDeSala(new PnlOpt(lider, frmSala));
         
         //Lo manda a actualizar
         frmSala.actualizar();

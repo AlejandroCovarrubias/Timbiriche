@@ -3,6 +3,7 @@
  */
 package Presentacion;
 
+import Dominio.Jugador;
 import javax.swing.JOptionPane;
 
 /**
@@ -11,11 +12,16 @@ import javax.swing.JOptionPane;
  */
 public class PnlOpt extends javax.swing.JPanel implements ComponenteSala {
 
+    private Jugador jugador;
+    private FrmSala sala;
+
     /**
      * Crea PnlOpt.
      */
-    public PnlOpt() {
+    public PnlOpt(Jugador jugador, FrmSala sala) {
         initComponents();
+        this.jugador = jugador;
+        this.sala = sala;
     }
 
     /**
@@ -55,7 +61,14 @@ public class PnlOpt extends javax.swing.JPanel implements ComponenteSala {
     }// </editor-fold>//GEN-END:initComponents
 
     private void salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirActionPerformed
-        JOptionPane.showMessageDialog(this, "Funcionalidad no agregada", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+        int showConfirmDialog = JOptionPane.showConfirmDialog(this, "¿Seguro que sea abandonar la partida?", "Abandono de partida", JOptionPane.YES_NO_OPTION);
+
+        if (showConfirmDialog == JOptionPane.YES_OPTION) {
+            jugador.setPuntaje(0);
+            MenuInicial mi = MenuInicial.getInstance(jugador);
+            mi.setVisible(true);
+            this.sala.dispose();
+        }
     }//GEN-LAST:event_salirActionPerformed
 
     @Override

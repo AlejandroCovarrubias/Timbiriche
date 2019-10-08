@@ -25,20 +25,15 @@ public class FrmSala extends javax.swing.JFrame implements ComponenteSala, Runna
     private ITimbiriche timbiriche = new TimbiricheFacade();
 
     /**
-     * Instancia de si misma.
-     */
-    private static FrmSala instance;
-    
-    /**
      * Instancia de sala que cambia dentro de un hilo.
      */
     private volatile Sala sala;
-    
+
     /**
      * Coleccion de los paneles donde son colocados los ComponentesSala.
      */
     private List<JPanel> pnlsDeFondo;
-    
+
     /**
      * Coleccion de ComponentesSala que componen al Compuesto FrmSala.
      */
@@ -47,7 +42,7 @@ public class FrmSala extends javax.swing.JFrame implements ComponenteSala, Runna
     /**
      * Constructor de FrmSala.
      */
-    private FrmSala(Sala sala) {
+    public FrmSala(Sala sala) {
         initComponents();
         this.setTitle("Sala de juego");
         this.setLocationRelativeTo(null);
@@ -57,26 +52,13 @@ public class FrmSala extends javax.swing.JFrame implements ComponenteSala, Runna
         this.pnlsDeFondo.add(pnlFondoMarcador);
         this.pnlsDeFondo.add(pnlFondoTablero);
         this.pnlsDeFondo.add(pnlFondoOpt);
-
-    }
-
-    /**
-     * Metodo estatico que regresa la unica instancia de FrmSala.
-     * Si esta instancia no ha sido creada, la crea.
-     * @param sala
-     * @return 
-     */
-    public static FrmSala getInstance(Sala sala) {
-        if (instance == null) {
-            instance = new FrmSala(sala);
-        }
-        return instance;
     }
 
     /**
      * Metodo que agrega ComponenteSala hasta que ya no haya paneles de fondo
      * establecidos en FrmSala.
-     * @param componente 
+     *
+     * @param componente
      */
     public void agregarComponenteDeSala(ComponenteSala componente) {
         if (this.pnlsDeFondo.size() > this.componentesDeSala.size()) {
@@ -103,7 +85,8 @@ public class FrmSala extends javax.swing.JFrame implements ComponenteSala, Runna
 
     /**
      * Retorna la sala que se esta trabajando.
-     * @return 
+     *
+     * @return
      */
     public Sala getSala() {
         return sala;
@@ -111,7 +94,8 @@ public class FrmSala extends javax.swing.JFrame implements ComponenteSala, Runna
 
     /**
      * Establece la sala de trabajo.
-     * @param sala 
+     *
+     * @param sala
      */
     public void setSala(Sala sala) {
         this.sala = sala;
@@ -242,61 +226,38 @@ public class FrmSala extends javax.swing.JFrame implements ComponenteSala, Runna
     // End of variables declaration//GEN-END:variables
 
     /**
-     * Hilo de la Sala, establece un contador de 60 segundos mientas "escucha"
-     * a que se unan jugadores.
+     * Hilo de la Sala. Simula la entrada de jugadores a la sala
      */
     @Override
     public void run() {
         this.pnlFondoTablero.getComponent(0).setVisible(false);
-        this.lblTimer.setText("60");
+        //Label de tiempo? aun no implementado
+        this.lblTimer.setText("NT");
 
-        //Esto pasa de momento
-        //Pero esto solo debe pasar en el cliente?
-        //Supongo que dependera de la arquitectura
-        //Pero los otros nodos conectados que no sean lideres no deben escuchar?
-        int i = 59;
-        while (i >= 0) {
+        //Mientras la sala no este llena
+        Jugador[] jugs = null;
+        while (this.sala.getJugadores().size() < this.sala.getTamanio()) {
+            //Busca jugadores?
+            jugs = this.timbiriche.buscarJugadores(this.sala);
+            
+            //Si los encuentra, los agrega.
+            if (jugs != null) {
+                this.lblInfo.setText(jugs[0].getNombre() + " ha entrado a la partida.  ");
+                this.sala.agregarJugador(jugs[0]);
+                ((PnlMarcador) this.pnlFondoMarcador.getComponent(0)).actualizar();
+            }
             try {
+                //nomas pa animar
                 Thread.sleep(1000);
-
-                Jugador[] jugs = null;
-
-                //Mientras la sala no este llena
-                if (this.sala.getJugadores().size() < this.sala.getTamanio()) {
-                    //Vamos a suponer que durante 60 segundos se busca por jugadores
-                    //Al segundo 50 se recibio un jugador
-                    if (i == 50) {
-                        jugs = this.timbiriche.buscarJugadores(this.sala);
-                    }
-
-                    //Al 35 un tercero
-                    if (i == 35) {
-                        jugs = this.timbiriche.buscarJugadores(this.sala);
-                    }
-
-                    //Al 22 un cuarto y ultimo
-                    if (i == 22) {
-                        jugs = this.timbiriche.buscarJugadores(this.sala);
-                    }
-                } else {
-                    this.lblInfo.setText("¡A jugar!  ");
-                    i = 0;
-                }
-
-                if (jugs != null) {
-                    this.lblInfo.setText(jugs[0].getNombre() + " ha entrado a la partida.  ");
-                    this.sala.agregarJugador(jugs[0]);
-                    ((PnlMarcador) this.pnlFondoMarcador.getComponent(0)).actualizar();
-                }
-
-                this.lblTimer.setText(Integer.toString(i));
-                i--;
             } catch (InterruptedException ex) {
                 Logger.getLogger(FrmSala.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        this.pnlFondoTablero.getComponent(0).setVisible(true);
+        this.lblInfo.setText("¡A jugar!  ");
         
+        
+        this.pnlFondoTablero.getComponent(0).setVisible(true);
+
         timbiriche.turnarJugadores(this.sala.getMarcador());
         ((PnlMarcador) this.pnlFondoMarcador.getComponent(0)).establecerColoresPreferenciales();
         ((PnlMarcador) this.pnlFondoMarcador.getComponent(0)).actualizar();
