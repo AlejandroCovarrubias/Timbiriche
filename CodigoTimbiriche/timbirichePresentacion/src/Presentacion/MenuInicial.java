@@ -52,7 +52,7 @@ public class MenuInicial extends javax.swing.JFrame {
         if(instance == null){
             instance = new MenuInicial(jugador);
         }
-        instance.jugador = jugador;
+        instance.setJugador(jugador);
         return instance;
     }
 

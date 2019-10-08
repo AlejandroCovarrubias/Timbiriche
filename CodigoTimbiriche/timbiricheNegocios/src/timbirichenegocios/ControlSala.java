@@ -11,7 +11,7 @@ import Dominio.Sala;
  *
  * @author Alejandro Galindo, Francisco Felix, Cesar Acactitla
  */
-public class ControlSala {
+class ControlSala {
 
     public Sala crearSala(Marcador marcador, int tamanio) {
         //Revisa que no exista otra sala igual creada por el mismo jugador?
