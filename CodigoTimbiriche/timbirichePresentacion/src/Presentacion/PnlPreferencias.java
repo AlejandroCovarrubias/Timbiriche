@@ -31,52 +31,47 @@ public class PnlPreferencias extends javax.swing.JPanel {
     private void initComponents() {
 
         panelLinea = new javax.swing.JPanel();
-        escogerColorLinea = new javax.swing.JButton();
         panelColorEscogido = new javax.swing.JPanel();
 
         setMaximumSize(new java.awt.Dimension(200, 221));
         setMinimumSize(new java.awt.Dimension(200, 221));
 
-        escogerColorLinea.setText("Escoger color de linea");
-        escogerColorLinea.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                escogerColorLineaActionPerformed(evt);
-            }
-        });
+        panelLinea.setBackground(new java.awt.Color(255, 255, 255));
 
         panelColorEscogido.setBackground(new java.awt.Color(0, 0, 0));
         panelColorEscogido.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        panelColorEscogido.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                panelColorEscogidoMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelColorEscogidoLayout = new javax.swing.GroupLayout(panelColorEscogido);
         panelColorEscogido.setLayout(panelColorEscogidoLayout);
         panelColorEscogidoLayout.setHorizontalGroup(
             panelColorEscogidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 178, Short.MAX_VALUE)
         );
         panelColorEscogidoLayout.setVerticalGroup(
             panelColorEscogidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 157, Short.MAX_VALUE)
+            .addGap(0, 178, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout panelLineaLayout = new javax.swing.GroupLayout(panelLinea);
         panelLinea.setLayout(panelLineaLayout);
         panelLineaLayout.setHorizontalGroup(
             panelLineaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLineaLayout.createSequentialGroup()
+            .addGroup(panelLineaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelLineaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(panelColorEscogido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(escogerColorLinea, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE))
+                .addComponent(panelColorEscogido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panelLineaLayout.setVerticalGroup(
             panelLineaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelLineaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(escogerColorLinea, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelColorEscogido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(panelColorEscogido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -87,18 +82,18 @@ public class PnlPreferencias extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelLinea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelLinea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void escogerColorLineaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_escogerColorLineaActionPerformed
+    private void panelColorEscogidoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelColorEscogidoMouseClicked
         Color color = JColorChooser.showDialog(this, "Escoge un color para la linea", Color.BLACK);
         if (color == null){
             color = Color.BLACK;
         }
         
         this.panelColorEscogido.setBackground(color);
-    }//GEN-LAST:event_escogerColorLineaActionPerformed
+    }//GEN-LAST:event_panelColorEscogidoMouseClicked
 
     /**
      * Regresa el color escogido.
@@ -109,7 +104,6 @@ public class PnlPreferencias extends javax.swing.JPanel {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton escogerColorLinea;
     private javax.swing.JPanel panelColorEscogido;
     private javax.swing.JPanel panelLinea;
     // End of variables declaration//GEN-END:variables
