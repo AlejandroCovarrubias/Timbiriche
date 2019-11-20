@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  *
- * @author Alejandro Galindo, Francisco Felix, Cesar Acactitla
+ * @author Alejandro Galindo, Francisco Felix
  */
 public class UtilesTablero {
 

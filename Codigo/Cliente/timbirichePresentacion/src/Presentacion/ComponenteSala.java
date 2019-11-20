@@ -7,7 +7,7 @@ package Presentacion;
  * Interfaz que contrata a ComponenteSala.
  * Lo implementan Compuestos o Componentes de una sala.
  * 
- * @author Alejandro Galindo, Francisco Felix, Cesar Acactitla
+ * @author Alejandro Galindo, Francisco Felix
  */
 public interface ComponenteSala {
     

@@ -5,15 +5,13 @@ package Presentacion;
 
 import Dominio.Jugador;
 import Dominio.Preferencia;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
  * Cuadro de dialogo que registra la informacion de un jugador.
  *
- * @author Alejandro Galindo, Francisco Felix, Cesar Acactitla
+ * @author Alejandro Galindo, Francisco Felix
  */
 public class DlgRegistrarJugador extends javax.swing.JDialog {
 
@@ -108,6 +106,7 @@ public class DlgRegistrarJugador extends javax.swing.JDialog {
         jLabel2.setText("Escoge un avatar:");
 
         avt1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Avatares/poroPorito.png"))); // NOI18N
+        avt1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         avt1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 avt1MouseClicked(evt);
@@ -115,6 +114,7 @@ public class DlgRegistrarJugador extends javax.swing.JDialog {
         });
 
         avt2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Avatares/hamsterAtomico.png"))); // NOI18N
+        avt2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         avt2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 avt2MouseClicked(evt);
@@ -122,6 +122,7 @@ public class DlgRegistrarJugador extends javax.swing.JDialog {
         });
 
         avt3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Avatares/loboLobezno.png"))); // NOI18N
+        avt3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         avt3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 avt3MouseClicked(evt);
@@ -129,6 +130,7 @@ public class DlgRegistrarJugador extends javax.swing.JDialog {
         });
 
         avt4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Avatares/pollitoEnojado.png"))); // NOI18N
+        avt4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         avt4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 avt4MouseClicked(evt);
