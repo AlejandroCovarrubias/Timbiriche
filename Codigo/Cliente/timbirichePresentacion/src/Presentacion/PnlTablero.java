@@ -15,15 +15,16 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import timbirichenegocios.ITimbiriche;
 import timbirichenegocios.TimbiricheFacade;
 
 /**
  *
- * @author Alejandro Galindo, Francisco Felix, Cesar Acactitla
+ * @author Alejandro Galindo, Francisco Felix
  */
-public class PnlTablero extends javax.swing.JPanel implements ComponenteSala, MouseListener, MouseMotionListener {
+public class PnlTablero extends javax.swing.JPanel implements ComponenteSala, MouseListener, MouseMotionListener, PnlObs{
 
     /**
      * Tablero que se dibuja
@@ -43,6 +44,8 @@ public class PnlTablero extends javax.swing.JPanel implements ComponenteSala, Mo
     private Linea lineaTemp = null;
     
     private PnlMarcador pnlMarcador;
+    
+    private ArrayList<PnlObr> observadores;
 
     /**
      * Crea el pnlTablero
@@ -56,6 +59,7 @@ public class PnlTablero extends javax.swing.JPanel implements ComponenteSala, Mo
         addMouseMotionListener(this);
         this.sala = sala;
         this.jugador = jugador;
+        this.observadores = new ArrayList<>();
     }
 
     /**
@@ -204,7 +208,7 @@ public class PnlTablero extends javax.swing.JPanel implements ComponenteSala, Mo
                         control.buscarMovimiento(this.sala.getTablero(), this.sala.getMarcador(), i);
                     }
                 }
-
+                nofiticarLinea();
                 //Mandar notificacion a FrmSala para que actualice PnlMarcador
             }
         }
@@ -254,6 +258,23 @@ public class PnlTablero extends javax.swing.JPanel implements ComponenteSala, Mo
                 jugador, espaciado, tamanio);
 
         repaint();
+    }
+
+    @Override
+    public void agregar(PnlObr observador) {
+        observadores.add(observador);
+    }
+
+    @Override
+    public void eliminar(PnlObr observador) {
+        observadores.remove(observador);
+    }
+
+    @Override
+    public void nofiticarLinea() {
+        for (PnlObr observadore : observadores) {
+            observadore.actualizar(lineaTemp);
+        }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 
 /**
  *
- * @author Alejandro Galindo, Francisco Felix, Cesar Acactitla
+ * @author Alejandro Galindo, Francisco Felix
  */
 public class PnlPreferencias extends javax.swing.JPanel {
 
@@ -37,6 +37,7 @@ public class PnlPreferencias extends javax.swing.JPanel {
         setMinimumSize(new java.awt.Dimension(200, 221));
 
         panelLinea.setBackground(new java.awt.Color(255, 255, 255));
+        panelLinea.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         panelColorEscogido.setBackground(new java.awt.Color(0, 0, 0));
         panelColorEscogido.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -50,7 +51,7 @@ public class PnlPreferencias extends javax.swing.JPanel {
         panelColorEscogido.setLayout(panelColorEscogidoLayout);
         panelColorEscogidoLayout.setHorizontalGroup(
             panelColorEscogidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 178, Short.MAX_VALUE)
+            .addGap(0, 176, Short.MAX_VALUE)
         );
         panelColorEscogidoLayout.setVerticalGroup(
             panelColorEscogidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

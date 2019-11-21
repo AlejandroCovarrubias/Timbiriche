@@ -11,7 +11,7 @@ import javax.swing.ImageIcon;
 /**
  * JPanel que despliega la informacion de un jugador.
  * 
- * @author Alejandro Galindo
+ * @author Alejandro Galindo, Francisco Félix
  */
 public class PnlJugador extends javax.swing.JPanel {
 
@@ -67,6 +67,8 @@ public class PnlJugador extends javax.swing.JPanel {
         labelPtj = new javax.swing.JLabel();
         labelNick = new javax.swing.JLabel();
 
+        setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
         labelAvt.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         labelAvt.setMaximumSize(new java.awt.Dimension(50, 50));
         labelAvt.setMinimumSize(new java.awt.Dimension(50, 50));
@@ -87,7 +89,7 @@ public class PnlJugador extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(labelAvt, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(labelNick, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                .addComponent(labelNick, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(labelPtj, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())

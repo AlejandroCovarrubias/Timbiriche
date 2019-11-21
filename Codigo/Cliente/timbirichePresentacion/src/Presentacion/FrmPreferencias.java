@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  *
- * @author Alejandro Galindo, Francisco Felix, Cesar Acactitla
+ * @author Alejandro Galindo, Francisco Felix
  */
 public class FrmPreferencias extends javax.swing.JFrame {
 
@@ -92,7 +92,7 @@ public class FrmPreferencias extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(300, 300));
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBackground(new java.awt.Color(102, 204, 0));
 
         guardar.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
         guardar.setText("Guardar");

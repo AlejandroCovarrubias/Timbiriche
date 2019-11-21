@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Alejandro Galindo, Francisco Felix, Cesar Acactitla
+ * @author Alejandro Galindo, Francisco Felix
  */
 public class PnlOpt extends javax.swing.JPanel implements ComponenteSala {
 

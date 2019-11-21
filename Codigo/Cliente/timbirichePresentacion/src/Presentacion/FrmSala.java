@@ -4,6 +4,7 @@
 package Presentacion;
 
 import Dominio.Jugador;
+import Dominio.Linea;
 import Dominio.Sala;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +16,9 @@ import timbirichenegocios.TimbiricheFacade;
 
 /**
  *
- * @author Alejandro Galindo, Francisco Felix, Cesar Acactitla
+ * @author Alejandro Galindo, Francisco Felix
  */
-public class FrmSala extends javax.swing.JFrame implements ComponenteSala, Runnable {
+public class FrmSala extends javax.swing.JFrame implements Runnable, PnlObr{
 
     /**
      * Instancia de la fachada de negocio.
@@ -41,6 +42,7 @@ public class FrmSala extends javax.swing.JFrame implements ComponenteSala, Runna
 
     /**
      * Constructor de FrmSala.
+     * @param sala
      */
     public FrmSala(Sala sala) {
         initComponents();
@@ -52,6 +54,7 @@ public class FrmSala extends javax.swing.JFrame implements ComponenteSala, Runna
         this.pnlsDeFondo.add(pnlFondoMarcador);
         this.pnlsDeFondo.add(pnlFondoTablero);
         this.pnlsDeFondo.add(pnlFondoOpt);
+        iniciarSala(sala);
     }
 
     /**
@@ -100,13 +103,10 @@ public class FrmSala extends javax.swing.JFrame implements ComponenteSala, Runna
     public void setSala(Sala sala) {
         this.sala = sala;
     }
-
-    /**
-     * Actualiza los componentes de sala.
-     */
+    
     @Override
-    public void actualizar() {
-        establecerComponentesDeSala();
+    public void actualizar(Linea linea) {
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -233,7 +233,6 @@ public class FrmSala extends javax.swing.JFrame implements ComponenteSala, Runna
         this.pnlFondoTablero.getComponent(0).setVisible(false);
         //Label de tiempo? aun no implementado
         this.lblTimer.setText("NT");
-
         //Mientras la sala no este llena
         Jugador[] jugs = null;
         while (this.sala.getJugadores().size() < this.sala.getTamanio()) {
@@ -255,11 +254,23 @@ public class FrmSala extends javax.swing.JFrame implements ComponenteSala, Runna
         }
         this.lblInfo.setText("¡A jugar!  ");
         
-        
         this.pnlFondoTablero.getComponent(0).setVisible(true);
 
         timbiriche.turnarJugadores(this.sala.getMarcador());
         ((PnlMarcador) this.pnlFondoMarcador.getComponent(0)).establecerColoresPreferenciales();
         ((PnlMarcador) this.pnlFondoMarcador.getComponent(0)).actualizar();
+    }
+
+    /**
+     * Establece la sala por primera vez
+     * 
+     * @param sala 
+     */
+    public void iniciarSala(Sala sala){
+        agregarComponenteDeSala(new PnlMarcador(sala));
+        agregarComponenteDeSala(new PnlTablero(sala, sala.getJugadores().get(0)));
+        agregarComponenteDeSala(new PnlOpt(sala.getJugadores().get(0), this));
+        
+        establecerComponentesDeSala();
     }
 }

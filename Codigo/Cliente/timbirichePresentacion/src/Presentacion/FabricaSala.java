@@ -13,7 +13,7 @@ import timbirichenegocios.TimbiricheFacade;
  * Intento de Factory Pattern que se encarga de crear la instancia
  * adecuada de FrmSala.
  * 
- * @author Alejandro Galindo
+ * @author Alejandro Galindo, Francisco Félix
  */
 public class FabricaSala {
     
@@ -46,9 +46,10 @@ public class FabricaSala {
         frmSala.agregarComponenteDeSala(new PnlOpt(lider, frmSala));
         
         //Lo manda a actualizar
-        frmSala.actualizar();
+        //frmSala.actualizar();
         
         //Retorna el frmSala
-        return frmSala;
+        //return frmSala;
+        return null;
     }
 }

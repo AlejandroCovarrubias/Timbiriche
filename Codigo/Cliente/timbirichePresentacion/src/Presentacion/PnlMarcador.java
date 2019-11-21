@@ -9,13 +9,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JPanel;
 
 /**
  * Panel que despliega la informacion de los jugadores de la sala y sus
  * puntajes.
  * 
- * @author Alejandro Galindo
+ * @author Alejandro Galindo, Francisco Félix
  */
 public class PnlMarcador extends javax.swing.JPanel implements ComponenteSala {
 
@@ -99,6 +98,9 @@ public class PnlMarcador extends javax.swing.JPanel implements ComponenteSala {
         pnlJugador2Fondo = new javax.swing.JPanel();
         pnlJugador3Fondo = new javax.swing.JPanel();
         pnlJugador4Fondo = new javax.swing.JPanel();
+
+        setBackground(new java.awt.Color(204, 255, 255));
+        setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         pnlJugador1Fondo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         pnlJugador1Fondo.setMaximumSize(new java.awt.Dimension(280, 80));
@@ -188,7 +190,7 @@ public class PnlMarcador extends javax.swing.JPanel implements ComponenteSala {
                 .addComponent(pnlJugador3Fondo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pnlJugador4Fondo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(136, Short.MAX_VALUE))
+                .addContainerGap(134, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
