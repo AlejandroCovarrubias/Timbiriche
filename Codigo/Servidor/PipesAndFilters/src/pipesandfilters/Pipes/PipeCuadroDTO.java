@@ -16,6 +16,8 @@ public class PipeCuadroDTO implements Pipe<CuadroDTO, FilterCuadro>{
 
     @Override
     public void pasar(CuadroDTO objeto) {
+        FilterCuadro fc = new FilterCuadro();
+        fc.procesar(objeto);
     }
     
 }

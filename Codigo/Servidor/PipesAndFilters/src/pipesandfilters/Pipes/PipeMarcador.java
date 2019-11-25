@@ -16,5 +16,7 @@ public class PipeMarcador implements Pipe<Marcador, SinkRepo> {
 
     @Override
     public void pasar(Marcador objeto) {
+        SinkRepo sr = SinkRepo.getInstance();
+        sr.asignarMarcador(objeto);
     }   
 }

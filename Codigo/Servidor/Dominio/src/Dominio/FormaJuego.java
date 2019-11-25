@@ -10,14 +10,21 @@ package Dominio;
 public class FormaJuego extends Forma{
     
     private Jugador jugador;
+    private int indice;
 
     public FormaJuego(int width, int height, int x, int y) {
         super(width, height, x, y);
     }
-    
-    public FormaJuego(int width, int height, int x, int y, Jugador jugador) {
+
+    public FormaJuego(Jugador jugador, int width, int height, int x, int y) {
         super(width, height, x, y);
         this.jugador = jugador;
+    }
+
+    public FormaJuego(Jugador jugador, int indice, int width, int height, int x, int y) {
+        super(width, height, x, y);
+        this.jugador = jugador;
+        this.indice = indice;
     }
 
     public Jugador getJugador() {
@@ -26,5 +33,13 @@ public class FormaJuego extends Forma{
 
     public void setJugador(Jugador jugador) {
         this.jugador = jugador;
-    }   
+    }
+
+    public int getIndice() {
+        return indice;
+    }
+
+    public void setIndice(int indice) {
+        this.indice = indice;
+    }
 }

@@ -16,6 +16,8 @@ public class PipeTablero implements Pipe<Tablero, SinkRepo>{
 
     @Override
     public void pasar(Tablero objeto) {
+        SinkRepo sr = SinkRepo.getInstance();
+        sr.asignarTablero(objeto);
     }
     
 }

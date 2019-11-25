@@ -16,6 +16,7 @@ public class PipeLineaDTO implements Pipe<LineaDTO, FilterLinea>{
 
     @Override
     public void pasar(LineaDTO objeto) {
-    }
-    
+        FilterLinea fl = new FilterLinea();
+        fl.procesar(objeto);
+    }   
 }

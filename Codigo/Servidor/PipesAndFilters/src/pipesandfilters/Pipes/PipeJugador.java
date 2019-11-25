@@ -16,6 +16,9 @@ public class PipeJugador implements Pipe<Jugador, SinkRepo> {
 
     @Override
     public void pasar(Jugador objeto) {
+        SinkRepo sr = SinkRepo.getInstance();
+        sr.retirarJugador(objeto);
+        
     }
     
 }

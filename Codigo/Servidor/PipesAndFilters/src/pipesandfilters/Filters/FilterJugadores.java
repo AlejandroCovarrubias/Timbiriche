@@ -7,6 +7,7 @@ package pipesandfilters.Filters;
 
 import Dominio.Jugador;
 import DominioDTO.JugadorDTO;
+import java.util.ArrayList;
 import java.util.List;
 import pipesandfilters.Pipes.PipeJugadores;
 
@@ -18,6 +19,13 @@ public class FilterJugadores implements Filter<List<JugadorDTO>, List<Jugador>, 
 
     @Override
     public void procesar(List<JugadorDTO> objeto) {
+        List<Jugador> jugadores = new ArrayList<>();
+        for (JugadorDTO jugadorDTO : objeto) {
+            Jugador jugador = new Jugador(jugadorDTO.getNombreJugador(), 
+                    jugadorDTO.getRutaAvatar());
+            jugadores.add(jugador);
+        }
+        PipeJugadores pj = new PipeJugadores();
+        pj.pasar(jugadores);
     }
-    
 }

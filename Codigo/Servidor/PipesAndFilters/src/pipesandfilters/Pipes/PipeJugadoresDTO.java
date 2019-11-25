@@ -17,6 +17,8 @@ public class PipeJugadoresDTO implements Pipe<List<JugadorDTO>, FilterJugadores>
 
     @Override
     public void pasar(List<JugadorDTO> objeto) {
+        FilterJugadores fj = new FilterJugadores();
+        fj.procesar(objeto);
     }
     
 }

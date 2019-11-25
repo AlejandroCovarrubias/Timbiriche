@@ -16,6 +16,8 @@ public class PipeLinea implements Pipe<Linea, SinkRepo>{
 
     @Override
     public void pasar(Linea objeto) {
+        SinkRepo sr = SinkRepo.getInstance();
+        sr.asignarLinea(objeto);
     }
     
 }

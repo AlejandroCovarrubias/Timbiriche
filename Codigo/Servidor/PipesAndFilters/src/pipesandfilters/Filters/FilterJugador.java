@@ -17,6 +17,8 @@ public class FilterJugador implements Filter<JugadorDTO, Jugador, PipeJugador> {
 
     @Override
     public void procesar(JugadorDTO objeto) {
+        Jugador jugador = new Jugador(objeto.getNombreJugador(), objeto.getRutaAvatar());
+        PipeJugador pj = new PipeJugador();
+        pj.pasar(jugador);
     }
-    
 }

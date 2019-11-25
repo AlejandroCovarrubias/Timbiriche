@@ -16,6 +16,9 @@ public class FilterTablero implements Filter<Integer, Tablero, PipeTablero>{
 
     @Override
     public void procesar(Integer objeto) {
-    }
-    
+        //
+        Tablero tablero = new Tablero(objeto);
+        PipeTablero pt = new PipeTablero();
+        pt.pasar(tablero);
+    } 
 }

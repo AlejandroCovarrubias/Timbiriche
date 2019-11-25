@@ -16,5 +16,7 @@ public class PipeCuadro implements Pipe<Cuadro, SinkRepo> {
 
     @Override
     public void pasar(Cuadro objeto) {
+        SinkRepo sr = SinkRepo.getInstance();
+        sr.asignarCuadro(objeto);
     }   
 }

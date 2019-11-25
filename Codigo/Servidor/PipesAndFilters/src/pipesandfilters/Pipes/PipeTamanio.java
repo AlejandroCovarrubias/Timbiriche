@@ -15,6 +15,8 @@ public class PipeTamanio implements Pipe<Integer, FilterTablero>{
 
     @Override
     public void pasar(Integer objeto) {
+        FilterTablero ft = new FilterTablero();
+        ft.procesar(objeto);
     }
     
 }

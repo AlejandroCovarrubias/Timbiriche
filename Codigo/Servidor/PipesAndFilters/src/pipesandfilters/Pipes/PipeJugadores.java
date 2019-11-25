@@ -17,6 +17,7 @@ public class PipeJugadores implements Pipe<List<Jugador>, FilterMarcador>{
 
     @Override
     public void pasar(List<Jugador> objeto) {
-        
+        FilterMarcador fm = new FilterMarcador();
+        fm.procesar(objeto);
     }
 }

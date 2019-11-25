@@ -16,6 +16,8 @@ public class Sala {
     private Marcador marcador;
     private int tamanio;
 
+    public Sala() {}
+
     /**
      * Constructor de Sala
      * @param marcador
@@ -26,10 +28,6 @@ public class Sala {
         this.tablero = tablero;
         this.marcador = marcador;
         this.tamanio = tamanio;
-    }
-
-    public Sala() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public Tablero getTablero() {

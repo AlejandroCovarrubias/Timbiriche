@@ -18,5 +18,8 @@ public class FilterMarcador implements Filter<List<Jugador>, Marcador, PipeMarca
 
     @Override
     public void procesar(List<Jugador> objeto) {
+        Marcador marcador = new Marcador(objeto);
+        PipeMarcador pm = new PipeMarcador();
+        pm.pasar(marcador);
     }   
 }
