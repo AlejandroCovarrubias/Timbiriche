@@ -5,14 +5,25 @@
  */
 package pipesandfilters;
 
+import DominioDTO.JugadorDTO;
+import pipesandfilters.Pipes.PipeJugadorDTO;
+
 /**
  *
  * @author Alejandro Galindo
  */
 public class RetirarJugadorPln implements IPAFPipeline {
+    
+    private JugadorDTO jugador;
+
+    public RetirarJugadorPln(JugadorDTO jugador) {
+        this.jugador = jugador;
+    }
 
     @Override
     public void ejecutar() {
+        PipeJugadorDTO pj = new PipeJugadorDTO();
+        pj.pasar(jugador);
     }
     
 }

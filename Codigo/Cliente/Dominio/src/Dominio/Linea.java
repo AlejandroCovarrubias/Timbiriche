@@ -11,6 +11,7 @@ public class Linea extends FormaJuego {
     
     private String posicion;
 
+    //Decidir cual de estos no usamos xd
     public Linea(int width, int height, int x, int y) {
         super(width, height, x, y);
     }
@@ -34,10 +35,17 @@ public class Linea extends FormaJuego {
         this.posicion = posicion;
     }
 
+    //Este simon
     public Linea(String posicion, Jugador jugador, int indice) {
         super(jugador, indice, 0, 0, 0, 0);
         this.posicion = posicion;
     }
-    
-    
+
+    public String getPosicion() {
+        return posicion;
+    }
+
+    public void setPosicion(String posicion) {
+        this.posicion = posicion;
+    }
 }

@@ -5,14 +5,25 @@
  */
 package pipesandfilters;
 
+import DominioDTO.CuadroDTO;
+import pipesandfilters.Pipes.PipeCuadroDTO;
+
 /**
  *
  * @author Alejandro Galindo
  */
 public class AsignarCuadroPln implements IPAFPipeline {
 
+    private CuadroDTO cuadro;
+
+    public AsignarCuadroPln(CuadroDTO cuadro) {
+        this.cuadro = cuadro;
+    }
+    
     @Override
     public void ejecutar() {
+        PipeCuadroDTO pc = new PipeCuadroDTO();
+        pc.pasar(cuadro);
     }
     
 }

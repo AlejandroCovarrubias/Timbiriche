@@ -82,6 +82,6 @@ public class TableroDTO {
 
     @Override
     public String toString() {
-        return "TableroDTO{" + "lineasVerticalesDTO=" + lineasVerticalesDTO + ", lineasHorizontalesDTO=" + lineasHorizontalesDTO + ", listaCuadrosDTO=" + listaCuadrosDTO + '}';
+        return "TableroDTO{ verticales" + lineasVerticalesDTO + ", horizontales " + lineasHorizontalesDTO + ", cuadrados " + listaCuadrosDTO + '}';
     }
 }

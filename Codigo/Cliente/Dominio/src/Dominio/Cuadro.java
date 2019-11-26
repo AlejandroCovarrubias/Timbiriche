@@ -11,6 +11,18 @@ public class Cuadro extends FormaJuego {
 
     private Linea superior, inferior, izquierda, derecha;
 
+    public Cuadro(Jugador jugador, int indice) {
+        super(jugador, indice, 0, 0, 0, 0);
+    }
+    
+    public Cuadro(Linea superior, Linea inferior, Linea izquierda, Linea derecha, Jugador jugador, int indice) {
+        super(jugador, indice, 0, 0, 0, 0);
+        this.superior = superior;
+        this.inferior = inferior;
+        this.izquierda = izquierda;
+        this.derecha = derecha;
+    }
+    
     public Cuadro(Linea superior, Linea inferior, Linea izquierda, Linea derecha, Jugador jugador, int indice, int width, int height, int x, int y) {
         super(jugador, indice, width, height, x, y);
         this.superior = superior;
@@ -27,7 +39,7 @@ public class Cuadro extends FormaJuego {
         this.izquierda = izquierda;
         this.derecha = derecha;
     }
-    
+  
     public char obtenerInicial(){
         return this.getJugador().getNombre().charAt(0);
     }

@@ -84,6 +84,6 @@ public class LineaDTO {
 
     @Override
     public String toString() {
-        return "LineaDTO{" + "posicion=" + posicion + ", indice=" + indice + ", jugador=" + jugador + '}';
+        return "LineaDTO{" + posicion + ", " + indice + ", " + jugador + ")";
     }
 }

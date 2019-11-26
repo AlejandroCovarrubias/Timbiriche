@@ -10,50 +10,13 @@ package DominioDTO;
  * @author Alejandro Galindo
  */
 public class CuadroDTO {
-    
-    private LineaDTO superior, inferior, izquierda, derecha;
+
     private int indice;
     private JugadorDTO jugador;
 
-    public CuadroDTO(LineaDTO superior, LineaDTO inferior, LineaDTO izquierda, LineaDTO derecha, int indice, JugadorDTO jugador) {
-        this.superior = superior;
-        this.inferior = inferior;
-        this.izquierda = izquierda;
-        this.derecha = derecha;
+    public CuadroDTO(int indice, JugadorDTO jugador) {
         this.indice = indice;
         this.jugador = jugador;
-    }
-
-    public LineaDTO getSuperior() {
-        return superior;
-    }
-
-    public void setSuperior(LineaDTO superior) {
-        this.superior = superior;
-    }
-
-    public LineaDTO getInferior() {
-        return inferior;
-    }
-
-    public void setInferior(LineaDTO inferior) {
-        this.inferior = inferior;
-    }
-
-    public LineaDTO getIzquierda() {
-        return izquierda;
-    }
-
-    public void setIzquierda(LineaDTO izquierda) {
-        this.izquierda = izquierda;
-    }
-
-    public LineaDTO getDerecha() {
-        return derecha;
-    }
-
-    public void setDerecha(LineaDTO derecha) {
-        this.derecha = derecha;
     }
 
     public int getIndice() {
@@ -99,6 +62,6 @@ public class CuadroDTO {
 
     @Override
     public String toString() {
-        return "CuadroDTO{" + "superior=" + superior + ", inferior=" + inferior + ", izquierda=" + izquierda + ", derecha=" + derecha + ", indice=" + indice + ", jugador=" + jugador + '}';
+        return "CuadroDTO{" + indice + ", " + jugador + ")";
     }
 }

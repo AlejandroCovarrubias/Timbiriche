@@ -12,28 +12,54 @@ import java.util.List;
  * @author Alejandro Galindo, Francisco Felix
  */
 public class Tablero {
+
     private int dimension;
     private List<Linea> lineasHorizontales;
     private List<Linea> lineasVerticales;
     private List<Cuadro> cuadros;
     private List<Punto> puntos;
-    
-    public Tablero(int tamanio){
+
+    public Tablero(int tamanio) {
         lineasHorizontales = new ArrayList<>();
         lineasVerticales = new ArrayList<>();
         cuadros = new ArrayList<>();
         puntos = new ArrayList<>();
-        
+
         switch (tamanio) {
             case 2:
                 this.dimension = 10;
+                generaInstanciasDeFormaJuego();
                 break;
             case 3:
                 this.dimension = 20;
+                generaInstanciasDeFormaJuego();
                 break;
             case 4:
                 this.dimension = 40;
+                generaInstanciasDeFormaJuego();
                 break;
+        }
+    }
+
+    private void generaInstanciasDeFormaJuego() {
+        //Todo esto se crea para poder asignar un jugador despues
+        //Crea instancias de lineas y las guarda en una estructura
+        for (int i = 0; i < ((dimension - 1) * dimension); i++) {
+            lineasHorizontales.add(new Linea("HORIZONTAL", null, i));
+            lineasVerticales.add(new Linea("VERTICAL", null, i));
+        }
+
+        //Crea instancias de Cuadro utilizando las instancias de lineas creadas
+        for (int i = 0; i < dimension - 1; i++) {
+            int indicador = i;
+            for (int j = i * (dimension - 1); j < i * (dimension - 1) + (dimension - 1); j++) {
+                cuadros.add(new Cuadro(lineasHorizontales.get(j),
+                        lineasHorizontales.get(j + (dimension - 1)),
+                        lineasVerticales.get(indicador),
+                        lineasVerticales.get(indicador + (dimension - 1)), null, j));
+            
+                indicador += (dimension - 1);
+            }
         }
     }
 
@@ -83,5 +109,5 @@ public class Tablero {
 
     public void setPuntos(List<Punto> puntos) {
         this.puntos = puntos;
-    }   
+    }
 }

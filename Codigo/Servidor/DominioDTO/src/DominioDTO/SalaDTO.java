@@ -33,4 +33,9 @@ public class SalaDTO {
     public void setMarcadorDTO(MarcadorDTO marcadorDTO) {
         this.marcadorDTO = marcadorDTO;
     }
+
+    @Override
+    public String toString() {
+        return "SalaDTO{" + "tableroDTO=" + tableroDTO + ", marcadorDTO=" + marcadorDTO + '}';
+    }
 }

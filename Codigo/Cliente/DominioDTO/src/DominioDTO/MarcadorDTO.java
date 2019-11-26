@@ -13,11 +13,16 @@ import java.util.List;
  */
 public class MarcadorDTO {
     private List<JugadorDTO> jugadores;
-    private JugadorDTO siguiente;
+    private int siguiente;
 
     public MarcadorDTO(List<JugadorDTO> jugadores) {
         this.jugadores = jugadores;
-        this.siguiente = jugadores.get(0);
+        this.siguiente = 0;
+    }
+
+    public MarcadorDTO(List<JugadorDTO> jugadores, int siguiente) {
+        this.jugadores = jugadores;
+        this.siguiente = siguiente;
     }
 
     public List<JugadorDTO> getJugadores() {
@@ -28,11 +33,16 @@ public class MarcadorDTO {
         this.jugadores = jugadores;
     }
 
-    public JugadorDTO getSiguiente() {
+    public int getSiguiente() {
         return siguiente;
     }
 
-    public void setSiguiente(JugadorDTO siguiente) {
+    public void setSiguiente(int siguiente) {
         this.siguiente = siguiente;
+    }
+
+    @Override
+    public String toString() {
+        return "MarcadorDTO{" + "jugadores=" + jugadores + ", siguiente=" + siguiente + '}';
     }
 }
