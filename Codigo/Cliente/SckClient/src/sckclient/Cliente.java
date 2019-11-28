@@ -5,20 +5,33 @@
  */
 package sckclient;
 
+import Dominio.Cuadro;
 import Dominio.Jugador;
+import Dominio.Linea;
+import DominioDTO.JugadorDTO;
 import java.io.IOException;
 
 /**
  *
  * @author Alejandro Galindo
  */
-public class Cliente implements ICliente{
+public class Cliente implements ICliente {
+
+    private static Cliente instance;
+
     private SckClient sckCliente;
 
-    public Cliente(Jugador jugador){
+    private Cliente(Jugador jugador) {
         this.sckCliente = new SckClient(jugador);
     }
-    
+
+    public static Cliente getInstance(Jugador jugador) {
+        if (instance == null) {
+            instance = new Cliente(jugador);
+        }
+        return instance;
+    }
+
     @Override
     public boolean conectarAlServidor(String address, int port) {
         try {
@@ -32,8 +45,17 @@ public class Cliente implements ICliente{
     @Override
     public boolean enviarAlServidor(Object mensaje) {
         try {
-            sckCliente.enviarAlServidor(mensaje);
-            return true;
+            if (mensaje instanceof Jugador) {
+                Jugador jugador = (Jugador) mensaje;
+                JugadorDTO mensajeNuevo = new JugadorDTO(jugador.getNombre(), jugador.getRutaAvatar(), jugador.getPuntaje());
+                sckCliente.enviarAlServidor(mensajeNuevo);
+                return true;
+            } else if (mensaje instanceof Linea) {
+                return true;
+            } else if (mensaje instanceof Cuadro) {
+                return true;
+            }
+            return false;
         } catch (IOException ex) {
             return false;
         }
@@ -47,5 +69,5 @@ public class Cliente implements ICliente{
             return "Problemas al recibir la respuesta del servidor";
         }
     }
-    
+
 }

@@ -6,8 +6,6 @@
 package sckclient;
 
 import Dominio.Jugador;
-import Dominio.Sala;
-import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -27,26 +25,11 @@ public class SckClient {
         this.jugador = jugador;
     }
 
-    public Jugador getJugador() {
-        return jugador;
-    }
-
-    public Socket getSocket() {
-        return socket;
-    }
-
-    public ObjectInputStream getClientInput() {
-        return clientInput;
-    }
-
-    public ObjectOutputStream getClientOutput() {
-        return clientOutput;
-    }
-
     public void conectarAlServidor(String address, int port) throws IOException{
         socket = new Socket(address, port);
-        clientInput = new ObjectInputStream(socket.getInputStream());
         clientOutput = new ObjectOutputStream(socket.getOutputStream());
+        clientOutput.flush();
+        clientInput = new ObjectInputStream(socket.getInputStream());
     }
     
     public void enviarAlServidor(Object mensaje) throws IOException {
@@ -56,16 +39,8 @@ public class SckClient {
     
     public Object escucharAlServidor() throws IOException, ClassNotFoundException{
         while(true){
-            Object objetoRecibido = obtenerRespuesta();
-            if(objetoRecibido != null){
-                return objetoRecibido;
-            }else{
-                return null;
-            }
+            Object objetoRecibido = clientInput.readObject();
+            return objetoRecibido;
         }
-    }
-    
-    private Object obtenerRespuesta() throws IOException, ClassNotFoundException {
-        return clientInput.readObject();
     }
 }

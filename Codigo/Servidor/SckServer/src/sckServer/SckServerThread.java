@@ -5,7 +5,7 @@
  */
 package sckServer;
 
-import Dominio.Jugador;
+import DominioDTO.JugadorDTO;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -19,94 +19,53 @@ import java.util.logging.Logger;
  * @author Alejandro Galindo
  */
 public class SckServerThread implements Runnable {
-
-    private Socket socket;
-    private ObjectInputStream serverInput;
-    private ObjectOutputStream serverOutput;
-    private List<SckServerThread> socketThreads;
-    private boolean vivo;
-
-    public SckServerThread(Socket socket, List<SckServerThread> socketThreads) throws IOException {
-        this.socket = socket;
-        this.socketThreads = socketThreads;
-        vivo = true;
-        serverOutput = new ObjectOutputStream(this.socket.getOutputStream());
-        serverInput = new ObjectInputStream(this.socket.getInputStream());
-    }
     
-    public Socket getSocket(){
-        return socket;
-    }
-
-    public ObjectInputStream getServerInput() {
-        return serverInput;
-    }
-
-    public ObjectOutputStream getServerOutput() {
-        return serverOutput;
-    }
-
-    public List<SckServerThread> getSocketThreads() {
-        return socketThreads;
-    }
-
-    public boolean isVivo() {
-        return vivo;
-    }
+    private JugadorDTO jugadorDTO;
+    private ObjectInputStream input;
+    private ObjectOutputStream output;
+    private List<SckServerThread> threads;
+    private Socket s;
+    private boolean isloggedin;
     
-    private void enviar(Object message) throws IOException {
-        serverOutput.writeObject(message);
-        serverOutput.flush();
-    }
-    
-    private synchronized void transmitir(Object message) throws IOException {
-        for (SckServerThread socketThread : socketThreads) {
-            if(socketThread != this){
-                socketThread.enviar(message);
-            }
-        }
-    }
-    
-    private void limpiar() throws IOException {
-        serverOutput.close();
-        serverInput.close();
-        socket.close();
-        
-        synchronized(socketThreads){
-            socketThreads.remove(this);
-        }
+    public SckServerThread(Socket s, List<SckServerThread> threads) throws IOException{
+        this.s = s;
+        this.threads = threads;
+        this.isloggedin = true;
+        this.output = new ObjectOutputStream(s.getOutputStream());
+        this.output.flush();
+        this.input = new ObjectInputStream(s.getInputStream());
     }
 
     @Override
     public void run() {
-        while(vivo){
+        Object mensajeEntrante;
+        
+        while(true){
             try {
-                Object mensajeEntrante = serverInput.readObject();
+                System.out.println("empece a escuchar");
+                mensajeEntrante = input.readObject();
+                System.out.println("Conectado");
+                System.out.println(mensajeEntrante);
                 
-                if(!vivo){
-                    break;
+//                if(this.jugadorDTO == null){
+//                    this.jugadorDTO = (JugadorDTO) mensajeEntrante;
+//                    System.out.println("Conectado");
+//                    System.out.println(this.jugadorDTO);
+//                }else{
+//                    
+//                }
+
+                for (SckServerThread thread : threads) {
+                    thread.output.writeObject("Hola");
+                    thread.output.flush();
                 }
                 
-                //Mandar al protocolo el mensaje entrante
-                
-                //Transmitir lo que devuelva el protocolo,
-                // o lo que este en el repositorio
-                transmitir("Hola");
-                
-            } catch (IOException | ClassNotFoundException ex) {
-                matarThread();
+            } catch (IOException ex) {
+                Logger.getLogger(SckServerThread.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(SckServerThread.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
-        try {
-            limpiar();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
-    
-    public void matarThread(){
-        vivo = false;
     }
 
 }
