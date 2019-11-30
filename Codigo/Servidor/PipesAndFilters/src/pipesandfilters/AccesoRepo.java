@@ -60,26 +60,26 @@ public class AccesoRepo implements IRepo {
         for (Linea linea : lineasHor) {
             Jugador jugadorTemp = linea.getJugador();
             if(jugadorTemp != null){
-                horizontalesDTO.add(new LineaDTO(linea.getPosicion(), 
+                horizontalesDTO.add(new LineaDTO(linea.getPosicion().toString(), 
                         linea.getIndice(), 
                         new JugadorDTO(jugadorTemp.getNombre(), 
                                 jugadorTemp.getRutaAvatar(), 
                                 jugadorTemp.getPuntaje())));
             }else{
-                horizontalesDTO.add(new LineaDTO(linea.getPosicion(), linea.getIndice()));
+                horizontalesDTO.add(new LineaDTO(linea.getPosicion().toString(), linea.getIndice()));
             }
         }
         
         for (Linea linea : lineasVer) {
             Jugador jugadorTemp = linea.getJugador();
             if(jugadorTemp != null){
-                verticalesDTO.add(new LineaDTO(linea.getPosicion(), 
+                verticalesDTO.add(new LineaDTO(linea.getPosicion().toString(), 
                         linea.getIndice(), 
                         new JugadorDTO(jugadorTemp.getNombre(), 
                                 jugadorTemp.getRutaAvatar(), 
                                 jugadorTemp.getPuntaje())));
             }else{
-                verticalesDTO.add(new LineaDTO(linea.getPosicion(), linea.getIndice()));
+                verticalesDTO.add(new LineaDTO(linea.getPosicion().toString(), linea.getIndice()));
             }
         }
         

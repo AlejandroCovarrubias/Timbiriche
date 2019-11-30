@@ -1,14 +1,10 @@
 package sckServer;
 
-import java.io.DataInputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -21,36 +17,35 @@ import java.util.Vector;
  */
 public class SckServer {
 
-    static List<SckServerThread> clients = new ArrayList<>();
-    static int i = 0;
-    static int MAX = 4;
+    static volatile List<SckServerThread> threads = new ArrayList<>();
+    
+    static int MAX = 2;
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException {
         ServerSocket ss = new ServerSocket(1234);
+        System.out.println("Servidor inicializado en el puerto 1234");
+        System.out.println("Soportando un total de " + MAX + " jugadores");
 
         Socket s;
 
         while (true) {
             s = ss.accept();
 
-            if (clients.size() < MAX) {
+            if (threads.size() < MAX) {
                 System.out.println("Nueva conexion por parte de cliente: " + s);
 
-                System.out.println("Creando un hilo para el cliente");
-
-                SckServerThread sst = new SckServerThread(s, clients);
+                SckServerThread sst = new SckServerThread(s, threads, MAX);
 
                 Thread t = new Thread(sst);
-
-                System.out.println("Aniadiendo al cliente a la lista");
-                clients.add(sst);
+                
+                threads.add(sst);
 
                 t.start();
             }else{
-            
+                System.out.println("Servidor lleno. Máximo número de conexiones simultaneas");
             }
         }
     }

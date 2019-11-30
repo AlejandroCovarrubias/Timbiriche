@@ -10,16 +10,21 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Alejandro Galindo
  */
-public class SckClient {
+public class SckClient implements Runnable{
     private Jugador jugador;
     private Socket socket;
     private ObjectInputStream clientInput;
     private ObjectOutputStream clientOutput;
+    private Object objeto;
+    
+    
 
     public SckClient(Jugador jugador) {
         this.jugador = jugador;
@@ -38,9 +43,20 @@ public class SckClient {
     }
     
     public Object escucharAlServidor() throws IOException, ClassNotFoundException{
+        Thread t = new Thread(this);
+        t.start();
+        return objeto;
+    }
+
+    @Override
+    public void run() {
         while(true){
-            Object objetoRecibido = clientInput.readObject();
-            return objetoRecibido;
+            try {
+                this.objeto = clientInput.readObject();
+                System.out.println(objeto);
+            } catch (IOException | ClassNotFoundException ex) {
+                Logger.getLogger(SckClient.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 }

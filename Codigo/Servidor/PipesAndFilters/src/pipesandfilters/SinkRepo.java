@@ -13,29 +13,29 @@ import Dominio.*;
  */
 public class SinkRepo {
 
-    private static SinkRepo instance;
+    private volatile static SinkRepo instance;
     private Sala sala;
 
     private SinkRepo() {
         sala = new Sala();
     }
 
-    public static SinkRepo getInstance() {
+    public static synchronized SinkRepo getInstance() {
         if (instance == null) {
             instance = new SinkRepo();
         }
         return instance;
     }
 
-    public void asignarMarcador(Marcador marcador) {
+    public synchronized void asignarMarcador(Marcador marcador) {
         this.sala.setMarcador(marcador);
     }
 
-    public void asignarTablero(Tablero tablero) {
+    public synchronized void asignarTablero(Tablero tablero) {
         this.sala.setTablero(tablero);
     }
 
-    public void asignarLinea(Linea linea) {
+    public synchronized void asignarLinea(Linea linea) {
         for (Jugador jugador : this.sala.getMarcador().getJugadores()) {
             if (jugador.equals(linea.getJugador())) {
                 if (linea.getPosicion().equals("HORIZONTAL")) {
@@ -47,7 +47,7 @@ public class SinkRepo {
         }
     }
 
-    public void asignarCuadro(Cuadro cuadro) {
+    public synchronized void asignarCuadro(Cuadro cuadro) {
         for (Jugador jugador : this.sala.getMarcador().getJugadores()) {
             if(jugador.equals(cuadro.getJugador())){
                 this.sala.getTablero().getCuadros().get(cuadro.getIndice()).setJugador(jugador);
@@ -56,7 +56,7 @@ public class SinkRepo {
         }
     }
 
-    public void retirarJugador(Jugador jugador) {
+    public synchronized void retirarJugador(Jugador jugador) {
         for (Jugador jugObj : this.sala.getMarcador().getJugadores()) {
             if(jugObj.equals(jugador)){
                 this.sala.getMarcador().getJugadores().remove(jugObj);
@@ -82,7 +82,7 @@ public class SinkRepo {
         }
     }
 
-    public Sala getSala() {
+    public synchronized Sala getSala() {
         return sala;
     }
 }

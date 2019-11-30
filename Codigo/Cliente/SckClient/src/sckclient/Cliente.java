@@ -54,6 +54,9 @@ public class Cliente implements ICliente {
                 return true;
             } else if (mensaje instanceof Cuadro) {
                 return true;
+            } else if (mensaje instanceof String){
+                sckCliente.enviarAlServidor(mensaje);
+                return true;
             }
             return false;
         } catch (IOException ex) {
