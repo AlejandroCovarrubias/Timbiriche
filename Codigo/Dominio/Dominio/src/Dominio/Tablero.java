@@ -45,8 +45,8 @@ public class Tablero {
         //Todo esto se crea para poder asignar un jugador despues
         //Crea instancias de lineas y las guarda en una estructura
         for (int i = 0; i < ((dimension - 1) * dimension); i++) {
-            lineasHorizontales.add(new Linea("HORIZONTAL", null, i));
-            lineasVerticales.add(new Linea("VERTICAL", null, i));
+            lineasHorizontales.add(new Linea(Posicion.HORIZONTAL, null, i));
+            lineasVerticales.add(new Linea(Posicion.VERTICAL, null, i));
         }
 
         //Crea instancias de Cuadro utilizando las instancias de lineas creadas

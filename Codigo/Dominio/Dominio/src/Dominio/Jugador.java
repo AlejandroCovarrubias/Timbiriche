@@ -21,6 +21,12 @@ public class Jugador {
         this.rutaAvatar = rutaAvatar;
     }
 
+    public Jugador(String nombre, String rutaAvatar, int puntaje) {
+        this.nombre = nombre;
+        this.rutaAvatar = rutaAvatar;
+        this.puntaje = puntaje;
+    }
+
     public String getNombre() {
         return nombre;
     }
