@@ -6,12 +6,11 @@
 package presentacion.inicio;
 
 import Dominio.Jugador;
-import Dominio.Linea;
-import Dominio.Sala;
-import DominioDTO.JugadorDTO;
+import Dominio.Marcador;
+import DominioDTO.MensajeSockets;
 import java.util.List;
 import javax.swing.ImageIcon;
-import presentacion.IActualizable;
+import presentacion.juego.FrmSala;
 import sckCliente.Cliente;
 import sckCliente.ICliente;
 
@@ -347,12 +346,15 @@ public class SalaEspera extends javax.swing.JFrame implements IActualizable {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonPrincipalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonPrincipalActionPerformed
-        if (sck.enviarAlServidor("Voto")) {
+        if (sck.enviarAlServidor(MensajeSockets.VOTO)) {
+
+            //Cambiar texto del boton de votar
             if (this.botonPrincipal.getText().equals("VOTAR")) {
                 this.botonPrincipal.setText("CANCELAR VOTO");
             } else if (this.botonPrincipal.getText().equals("CANCELAR VOTO")) {
                 this.botonPrincipal.setText("VOTAR");
             }
+
         } else {
             System.out.println("JaValió madres");
         }
@@ -381,15 +383,13 @@ public class SalaEspera extends javax.swing.JFrame implements IActualizable {
     @Override
     public void actualizaDeSocket(Object mensaje) {
         if (mensaje instanceof String) {
-            if (mensaje.equals("EMPEZAR")) {
-                //
-                System.out.println("Empezando partida");
-                
-            } else {
-                recibirMensaje((String) mensaje);
-            }
+            recibirMensaje((String) mensaje);
         } else if (mensaje instanceof List) {
             recibirJugadores((List<Jugador>) mensaje);
+        } else if (mensaje instanceof Marcador) {
+            FrmSala frmSala = new FrmSala((Marcador) mensaje, this.jugador);
+            frmSala.setVisible(true);
+            this.dispose();
         }
     }
 }

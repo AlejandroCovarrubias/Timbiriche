@@ -3,35 +3,107 @@
  */
 package presentacion.juego;
 
+import Dominio.Cuadro;
+import Dominio.FormaJuego;
+import Dominio.Jugador;
 import Dominio.Linea;
+import Dominio.Marcador;
 import Dominio.Sala;
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.JPanel;
+import Dominio.Tablero;
+import presentacion.inicio.IActualizable;
+import sckCliente.Cliente;
+import sckCliente.ICliente;
 
 /**
  *
  * @author Alejandro Galindo, Francisco Felix
  */
-public class FrmSala extends javax.swing.JFrame implements PnlObservable{
+public class FrmSala extends javax.swing.JFrame implements PnlObservador, IActualizable{
 
     /**
      * Instancia de sala que cambia dentro de un hilo.
      */
-    private volatile Sala sala;
+    private Sala sala;
+    
+    private Jugador jugador;
+    
+    private ICliente sck;
 
     /**
      * Constructor de FrmSala.
-     * @param sala
+     * @param marcador
+     * @param jugador
      */
-    public FrmSala(Sala sala) {
+    public FrmSala(Marcador marcador, Jugador jugador) {
+        this.jugador = jugador;
         initComponents();
-        this.setTitle("Sala de juego");
+        this.setTitle("Sala de juego - " + jugador.getNombre());
         this.setLocationRelativeTo(null);
-        this.sala = sala;
+        
+        this.sck = new Cliente(this.jugador, this);
+        
+        //Inicializar Sala
+        Tablero tablero = new Tablero(marcador.getJugadores().size());
+        this.sala = new Sala(marcador, tablero, marcador.getJugadores().size());
+        System.out.println(this.sala.toString());
+        
+        establecerColores();
+        establecerMarcador();
+        establecerTablero();
+    }
+    
+    private void establecerColores(){
+        int index = this.sala.getMarcador().getJugadores().indexOf(this.jugador);
+        this.sala.getMarcador().getJugadores().get(index).setColor(this.jugador.getColor());
+        
+        int indicador = 0;
+        for (int i = 0; i < this.sala.getMarcador().getJugadores().size(); i++) {
+            if(!this.sala.getMarcador().getJugadores().get(i).equals(this.jugador)){
+                this.sala.getMarcador().getJugadores().get(i).setColor(this.jugador.getPreferencia().getColores().get(indicador));
+                indicador++;
+            }
+        }
+    }
+    
+    private void establecerMarcador(){
+        for (int i = 0; i < this.sala.getMarcador().getJugadores().size(); i++) {
+            switch (i) {
+                case 0:
+                    pnlJugador1.add(new PnlJugador(this.sala.getMarcador().getJugadores().get(i)));
+                    pnlJugador1.revalidate();
+                    break;
+                case 1:
+                    pnlJugador2.add(new PnlJugador(this.sala.getMarcador().getJugadores().get(i)));
+                    pnlJugador2.revalidate();
+                    break;
+                case 2:
+                    pnlJugador3.add(new PnlJugador(this.sala.getMarcador().getJugadores().get(i)));
+                    pnlJugador3.revalidate();
+                    break;
+                case 3:
+                    pnlJugador4.add(new PnlJugador(this.sala.getMarcador().getJugadores().get(i)));
+                    pnlJugador4.revalidate();
+                    break;
+                default:
+                    break;
+            }
+            
+            this.validate();
+            
+        }
     }
 
-
+    private void establecerTablero(){
+        PnlTablero pnlTablero = new PnlTablero(this.sala.getTablero(), jugador);
+        
+        pnlTablero.setSize(this.pnlFondoTablero.getSize());
+        pnlTablero.setBorder(this.pnlFondoTablero.getBorder());
+        this.pnlFondoTablero.add(pnlTablero);
+        pnlTablero.estableceTablero();
+        pnlTablero.setVisible(true);
+        pnlTablero.repaint();
+    }
+    
     /**
      * Retorna la sala que se esta trabajando.
      *
@@ -241,6 +313,16 @@ public class FrmSala extends javax.swing.JFrame implements PnlObservable{
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void actualiza(Linea linea) {
+    public void actualiza(FormaJuego forma) {
+        if(forma instanceof Linea){
+            sck.enviarAlServidor((Linea) forma);
+        }else if(forma instanceof Cuadro){
+            sck.enviarAlServidor((Cuadro) forma);
+        }
+    }
+
+    @Override
+    public void actualizaDeSocket(Object mensaje) {
+        
     }
 }

@@ -6,6 +6,7 @@
 package sckServer;
 
 import DominioDTO.JugadorDTO;
+import DominioDTO.MensajeSockets;
 import DominioDTO.SalaDTO;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -48,44 +49,48 @@ public class SckServerThread implements Runnable {
 
         while (true) {
             try {
-                System.out.println("empece a escuchar");
+                
+                //Lee entrada
                 mensajeEntrante = input.readObject();
 
-                Object mensajeSaliente = ssp.procesarEntrada(mensajeEntrante, jugadorDTO);
+                //La procesa el protocolo
+                Object mensajeSaliente = ssp.procesarEntrada(mensajeEntrante);
 
-                if (mensajeSaliente instanceof String) {
-                    mensajeSaliente = (String) mensajeSaliente;
-                    if (mensajeSaliente.equals("Jugador")) {
-                        System.out.println("Entro jugador: " + mensajeEntrante);
-                        this.jugadorDTO = (JugadorDTO) mensajeEntrante;
+                //Si el jugador es nuevo
+                if (mensajeSaliente == MensajeSockets.JUGADOR_NUEVO) {
+                    System.out.println("Entro jugador: " + mensajeEntrante);
+                    this.jugadorDTO = (JugadorDTO) mensajeEntrante;
 
-                        List<JugadorDTO> jugadores = new ArrayList<>();
-                        for (SckServerThread thread : threads) {
-                            jugadores.add(thread.getJugadorDTO());
-                        }
-
-                        transmitirATodos(jugadores);
-                        
-                        if(threads.size() == MAX){
-                            transmitirATodos("EMPEZAR");
-                            mensajeSaliente = ssp.procesarEntrada("Crear", jugadorDTO);
-                            transmitirATodos(mensajeSaliente);
-                        }
-                    } else if(mensajeSaliente instanceof SalaDTO){
-                        System.out.println("sala");
-                        transmitirATodos(mensajeSaliente);
-                    }else if (mensajeSaliente.equals("Voto")) {
-                        if (this.votado == false) {
-                            this.votado = true;
-                            mensajeSaliente = this.jugadorDTO.getNombreJugador() + " ha votado";
-                        } else {
-                            this.votado = false;
-                            mensajeSaliente = this.jugadorDTO.getNombreJugador() + " ha cancelado el voto";
-                        }
-
-                        transmitirATodos(mensajeSaliente);
+                    //Crea una lista de Jugadores
+                    List<JugadorDTO> jugadores = new ArrayList<>();
+                    for (SckServerThread thread : threads) {
+                        jugadores.add(thread.getJugadorDTO());
                     }
+
+                    //La transmite a todos para actualizar
+                    transmitirATodos(jugadores);
+                    
+                    if(threads.size() == MAX){
+                        Object empezarPartida = ssp.empezarPartida(jugadores);
+                        transmitirATodos(empezarPartida);
+                    }
+                    
+                //Si es un voto
+                } else if (mensajeSaliente == MensajeSockets.VOTO) {
+                    //Si no voto
+                    if (this.votado == false) {
+                        this.votado = true;
+                        mensajeSaliente = this.jugadorDTO.getNombreJugador() + " ha votado";
+                    //Si ya habia votado
+                    } else {
+                        this.votado = false;
+                        mensajeSaliente = this.jugadorDTO.getNombreJugador() + " ha cancelado el voto";
+                    }
+
+                    //Retorna accion
+                    transmitirATodos(mensajeSaliente);
                 }
+
 
             } catch (IOException | ClassNotFoundException ex) {
                 Logger.getLogger(SckServerThread.class.getName()).log(Level.SEVERE, null, ex);
@@ -99,6 +104,14 @@ public class SckServerThread implements Runnable {
 
     public void setJugadorDTO(JugadorDTO jugadorDTO) {
         this.jugadorDTO = jugadorDTO;
+    }
+
+    public ObjectInputStream getInput() {
+        return input;
+    }
+
+    public ObjectOutputStream getOutput() {
+        return output;
     }
 
     public boolean isVotado() {

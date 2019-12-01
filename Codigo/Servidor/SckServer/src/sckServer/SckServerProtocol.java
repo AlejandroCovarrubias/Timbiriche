@@ -8,7 +8,9 @@ package sckServer;
 import DominioDTO.CuadroDTO;
 import DominioDTO.JugadorDTO;
 import DominioDTO.LineaDTO;
+import DominioDTO.MensajeSockets;
 import DominioDTO.SalaDTO;
+import java.util.List;
 import pipesandfilters.AccesoRepo;
 import pipesandfilters.IPAF;
 import pipesandfilters.IRepo;
@@ -28,30 +30,41 @@ public class SckServerProtocol {
         this.repo = new AccesoRepo();
     }
     
-    public Object procesarEntrada(Object mensajeEntrante, JugadorDTO jugador){
+    public Object procesarEntrada(Object mensajeEntrante){
+        
+        //Si despues de realizada la conexion, el socket del cliente manda los
+        //datos del jugador, le avisa al Thread que efectivamente son los datos
         if(mensajeEntrante instanceof JugadorDTO){
-            JugadorDTO jugadorP = jugador;
-            return "Jugador";
+            return MensajeSockets.JUGADOR_NUEVO;
+            
+        //Si se reciben los datos de una lineaDTO, se manda al componente 
+        //PipesAndFilters para realizar la conversion correspondiente, asignar 
+        //y obtener respuesta
         }else if(mensajeEntrante instanceof LineaDTO){
             LineaDTO lineaP = (LineaDTO) mensajeEntrante;
             ipaf.asignarLinea(lineaP);
-            return repo.obtenerRespuesta();
+            return repo.obtenerUltimaLinea();
+            
+        //Si se reciben los datos de un CuadroDTO, se manda al componente
+        //PipesAndFilters para realizar la conversion correspondiente, asignar
+        // y obtener una respuesta
         }else if(mensajeEntrante instanceof CuadroDTO){
             CuadroDTO cuadroP = (CuadroDTO) mensajeEntrante;
             ipaf.asignarCuadro(cuadroP);
-            return repo.obtenerRespuesta();
-        }else if(mensajeEntrante instanceof String){
-            String mensaje = (String) mensajeEntrante;
+            return repo.obtenerUltimoCuadro();
             
-            if(mensaje.equals("Voto")){
-                return "Voto";
-            }else if(mensaje.equals("Crear")){
-                
-            }
-            
-            return "";
+        //Si un cliente vota, se verifica y se manda respuesta
+        }else if(mensajeEntrante == MensajeSockets.VOTO){
+            return MensajeSockets.VOTO;
+        }else if(mensajeEntrante == MensajeSockets.TURNO_TERMINADO){
+            return repo.obtenerTurnoSiguiente();
         }
         
         return null;
+    }
+    
+    public Object empezarPartida(List<JugadorDTO> jugadoresDTO){
+        ipaf.crearSala(jugadoresDTO);
+        return repo.obtenerMarcador();
     }
 }

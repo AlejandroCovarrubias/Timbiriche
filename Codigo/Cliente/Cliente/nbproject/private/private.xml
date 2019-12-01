@@ -3,14 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Alejandro%20Galindo/Desktop/Timbiriche/Codigo/Cliente/Cliente/src/Presentacion/inicio/SalaEspera.java</file>
-            <file>file:/C:/Users/Alejandro%20Galindo/Desktop/Timbiriche/Codigo/Cliente/Cliente/src/Presentacion/juego/FrmSala.java</file>
-            <file>file:/C:/Users/Alejandro%20Galindo/Desktop/Timbiriche/Codigo/Cliente/Cliente/src/Presentacion/juego/PnlTablero.java</file>
-            <file>file:/C:/Users/Alejandro%20Galindo/Desktop/Timbiriche/Codigo/Cliente/Cliente/src/Presentacion/inicio/MenuInicial.java</file>
-            <file>file:/C:/Users/Alejandro%20Galindo/Desktop/Timbiriche/Codigo/Cliente/Cliente/src/Presentacion/juego/PnlObservable.java</file>
-            <file>file:/C:/Users/Alejandro%20Galindo/Desktop/Timbiriche/Codigo/Cliente/Cliente/src/Presentacion/juego/PnlJugador.java</file>
+            <file>file:/C:/Users/Alejandro%20Galindo/Desktop/Timbiriche/Codigo/Cliente/Cliente/src/presentacion/juego/UtilesTablero.java</file>
+            <file>file:/C:/Users/Alejandro%20Galindo/Desktop/Timbiriche/Codigo/Cliente/Cliente/src/presentacion/inicio/FrmPreferencias.java</file>
+            <file>file:/C:/Users/Alejandro%20Galindo/Desktop/Timbiriche/Codigo/Cliente/Cliente/src/presentacion/juego/PnlObservador.java</file>
+            <file>file:/C:/Users/Alejandro%20Galindo/Desktop/Timbiriche/Codigo/Cliente/Cliente/src/presentacion/juego/PnlObservable.java</file>
+            <file>file:/C:/Users/Alejandro%20Galindo/Desktop/Timbiriche/Codigo/Cliente/Cliente/src/presentacion/inicio/SalaEspera.java</file>
+            <file>file:/C:/Users/Alejandro%20Galindo/Desktop/Timbiriche/Codigo/Cliente/Cliente/src/presentacion/juego/PnlTablero.java</file>
             <file>file:/C:/Users/Alejandro%20Galindo/Desktop/Timbiriche/Codigo/Cliente/Cliente/src/presentacion/FrmCreadorDeSala.java</file>
-            <file>file:/C:/Users/Alejandro%20Galindo/Desktop/Timbiriche/Codigo/Cliente/Cliente/src/Presentacion/juego/PnlObservado.java</file>
+            <file>file:/C:/Users/Alejandro%20Galindo/Desktop/Timbiriche/Codigo/Cliente/Cliente/src/presentacion/juego/FrmSala.java</file>
+            <file>file:/C:/Users/Alejandro%20Galindo/Desktop/Timbiriche/Codigo/Cliente/Cliente/src/presentacion/juego/PnlJugador.java</file>
             <file>file:/C:/Users/Alejandro%20Galindo/Desktop/Timbiriche/Codigo/Cliente/Cliente/src/sckCliente/SckClient.java</file>
         </group>
     </open-files>

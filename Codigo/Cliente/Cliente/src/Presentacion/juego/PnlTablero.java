@@ -4,10 +4,11 @@
 package presentacion.juego;
 
 import Dominio.Cuadro;
+import Dominio.FormaJuego;
 import Dominio.Jugador;
 import Dominio.Linea;
 import Dominio.Punto;
-import Dominio.Sala;
+import Dominio.Tablero;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -15,17 +16,20 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Alejandro Galindo, Francisco Felix
  */
-public class PnlTablero extends javax.swing.JPanel implements MouseListener, MouseMotionListener{
+public class PnlTablero extends javax.swing.JPanel implements PnlObservable, MouseListener, MouseMotionListener{
 
     /**
      * Tablero que se dibuja
      */
-    private Sala sala;
+    private Tablero tablero;
 
     /**
      * Intancia del jugador que juega en este tablero.
@@ -34,19 +38,22 @@ public class PnlTablero extends javax.swing.JPanel implements MouseListener, Mou
 
     private Linea lineaTemp = null;
     
+    private List<PnlObservador> observadores;
+    
 
     /**
      * Crea el pnlTablero
      *
-     * @param sala
+     * @param tablero
      * @param jugador
      */
-    public PnlTablero(Sala sala, Jugador jugador) {
+    public PnlTablero(Tablero tablero, Jugador jugador) {
         initComponents();
         addMouseListener(this);
         addMouseMotionListener(this);
-        this.sala = sala;
+        this.tablero = tablero;
         this.jugador = jugador;
+        this.observadores = new ArrayList<>();
     }
 
     @Override
@@ -57,13 +64,13 @@ public class PnlTablero extends javax.swing.JPanel implements MouseListener, Mou
         g2.setBackground(Color.BLACK);
 
         //Itera en todos los puntos del tablero y los dibuja
-        for (Punto punto : this.sala.getTablero().getPuntos()) {
+        for (Punto punto : this.tablero.getPuntos()) {
             FormaPolygon puntoPl = new FormaPolygon(punto, Color.BLACK);
             puntoPl.renderizar(g);
         }
 
         //itera en todas las lineas horizontales del tablero y las dibuja
-        for (Linea lineaHorizontal : this.sala.getTablero().getLineasHorizontales()) {
+        for (Linea lineaHorizontal : this.tablero.getLineasHorizontales()) {
             if (lineaHorizontal.getJugador() != null) {
                 FormaPolygon puntoPl = new FormaPolygon(lineaHorizontal,
                         Color.decode(lineaHorizontal.getJugador().getColor()));
@@ -72,7 +79,7 @@ public class PnlTablero extends javax.swing.JPanel implements MouseListener, Mou
         }
 
         //itera en todas las lineas verticales del tablero y las dibuja
-        for (Linea lineaVertical : this.sala.getTablero().getLineasVerticales()) {
+        for (Linea lineaVertical : this.tablero.getLineasVerticales()) {
             if (lineaVertical.getJugador() != null) {
                 FormaPolygon puntoPl = new FormaPolygon(lineaVertical,
                         Color.decode(lineaVertical.getJugador().getColor()));
@@ -80,9 +87,9 @@ public class PnlTablero extends javax.swing.JPanel implements MouseListener, Mou
             }
         }
         
-        int tamanio = 200 / this.sala.getTablero().getDimension();
+        int tamanio = 200 / this.tablero.getDimension();
         //itera en todos los cuadrados del tablero y los dibuja
-        for (Cuadro cuadro : this.sala.getTablero().getCuadros()) {
+        for (Cuadro cuadro : this.tablero.getCuadros()) {
             if (cuadro.getJugador() != null) {
                 FormaPolygon cuadroPl = new FormaPolygon(cuadro,
                         Color.decode(cuadro.getJugador().getColor()));
@@ -111,36 +118,35 @@ public class PnlTablero extends javax.swing.JPanel implements MouseListener, Mou
      * Metodo que establece las propiedades del tablero y sus Forma
      */
     public void estableceTablero() {
-        int cantidad = this.sala.getTablero().getDimension();
-        int tamanio = 200 / this.sala.getTablero().getDimension();
-        
-        double espaciado = 0;
-//        double espaciado = UtilesTablero.obtenerEspaciadoDePuntos(cantidad, this.getHeight());
+        int cantidad = this.tablero.getDimension();
+        int tamanio = 200 / this.tablero.getDimension();
 
-        if (this.sala.getTablero().getPuntos().isEmpty()) {
-//            //Crea los puntos del tablero utilizando la altura, el ancho,
-//            //el espaciado que deben tener los puntos del tablero,
-//            //el tamanio seleccionado y la cantidad de puntos necesaria.
-//            this.sala.getTablero().setPuntos(
-//                    UtilesTablero.creaPuntos(this.getHeight(), this.getWidth(),
-//                            tamanio, espaciado));
-//
-//            //Crea las lineas horizontales del tablero.
-//            this.sala.getTablero().setLineasHorizontales(
-//                    UtilesTablero.creaLineasHorizontales(this.getHeight(),
-//                            this.getWidth(), tamanio, espaciado, cantidad));
-//
-//            //Crea las lineas verticales del tablero.
-//            this.sala.getTablero().setLineasVerticales(
-//                    UtilesTablero.creaLineasVerticales(this.getHeight(),
-//                            this.getWidth(), tamanio, espaciado, cantidad));
-//
-//            //Crea los cuadrados del tablero.
-//            this.sala.getTablero().setCuadros(
-//                    UtilesTablero.creaCuadros(
-//                            this.sala.getTablero().getLineasHorizontales(),
-//                            this.sala.getTablero().getLineasVerticales(),
-//                            tamanio, espaciado, cantidad));
+        double espaciado = UtilesTablero.obtenerEspaciadoDePuntos(cantidad, this.getHeight());
+
+        if (this.tablero.getPuntos().isEmpty()) {
+            //Crea los puntos del tablero utilizando la altura, el ancho,
+            //el espaciado que deben tener los puntos del tablero,
+            //el tamanio seleccionado y la cantidad de puntos necesaria.
+            this.tablero.setPuntos(
+                    UtilesTablero.creaPuntos(this.getHeight(), this.getWidth(),
+                            tamanio, espaciado));
+
+            //Crea las lineas horizontales del tablero.
+            this.tablero.setLineasHorizontales(
+                    UtilesTablero.creaLineasHorizontales(this.getHeight(),
+                            this.getWidth(), tamanio, espaciado, cantidad));
+
+            //Crea las lineas verticales del tablero.
+            this.tablero.setLineasVerticales(
+                    UtilesTablero.creaLineasVerticales(this.getHeight(),
+                            this.getWidth(), tamanio, espaciado, cantidad));
+
+            //Crea los cuadrados del tablero.
+            this.tablero.setCuadros(
+                    UtilesTablero.creaCuadros(
+                            tablero.getLineasHorizontales(),
+                            tablero.getLineasVerticales(),
+                            tamanio, espaciado, cantidad));
         }
     }
 
@@ -167,33 +173,27 @@ public class PnlTablero extends javax.swing.JPanel implements MouseListener, Mou
 
         System.out.println(clickX + "/" + clickY);
 
-        int cantidad = this.sala.getTablero().getDimension();
-        int tamanio = 200 / this.sala.getTablero().getDimension();
-        double espaciado = 0;
-//        double espaciado = UtilesTablero.obtenerEspaciadoDePuntos(cantidad, this.getHeight());
+        int cantidad = this.tablero.getDimension();
+        int tamanio = 200 / this.tablero.getDimension();
+        double espaciado = UtilesTablero.obtenerEspaciadoDePuntos(cantidad, this.getHeight());
 
-        Linea lineaEncontrada = null;
-//        Linea lineaEncontrada = UtilesTablero.buscarLinea(clickX, clickY,
-//                this.sala.getTablero().getLineasHorizontales(),
-//                this.sala.getTablero().getLineasVerticales(),
-//                jugador, espaciado, tamanio);
+        Linea lineaEncontrada = UtilesTablero.buscarLinea(clickX, clickY,
+                this.tablero.getLineasHorizontales(),
+                this.tablero.getLineasVerticales(),
+                jugador, espaciado, tamanio);
 
-//        if (lineaEncontrada != null) {
-//            String agregarLinea = control.agregarLinea(lineaEncontrada, jugador);
-//            if (!agregarLinea.equalsIgnoreCase("")) {
-//                JOptionPane.showMessageDialog(this, "Escoge una linea que no haya sido marcada anteriormente", "Error de juego", JOptionPane.INFORMATION_MESSAGE);
-//            } else {
-//                control.verficarMovimiento(this.sala.getTablero().getCuadros(), lineaEncontrada, jugador);
-//                
-//                for (int i = 0; i < this.sala.getMarcador().getJugadores().size(); i++) {
-//                    if(!this.sala.getMarcador().getJugadores().get(i).equals(this.jugador)){
-//                        control.buscarMovimiento(this.sala.getTablero(), this.sala.getMarcador(), i);
-//                    }
-//                }
-//                nofiticarLinea();
-//                //Mandar notificacion a FrmSala para que actualice PnlMarcador
-//            }
-//        }
+        if (lineaEncontrada != null) {
+            if (lineaEncontrada.getJugador() != null) {
+                JOptionPane.showMessageDialog(this, "Escoge una linea que no haya sido marcada anteriormente", "Error de juego", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                lineaEncontrada.setJugador(jugador);
+                notificaForma(lineaEncontrada);
+                Cuadro mov = UtilesTablero.verificarMovimiento(this.tablero.getCuadros(), lineaEncontrada, jugador);
+                if(mov != null){
+                    notificaForma(mov);
+                }
+            }
+        }
 
         repaint();
     }
@@ -230,17 +230,29 @@ public class PnlTablero extends javax.swing.JPanel implements MouseListener, Mou
 
         System.out.println(mouseX + "/" + mouseY);
 
-        int cantidad = this.sala.getTablero().getDimension();
-        int tamanio = 200 / this.sala.getTablero().getDimension();
-        double espaciado = 0;
-//        double espaciado = UtilesTablero.obtenerEspaciadoDePuntos(cantidad, this.getHeight());
+        int cantidad = this.tablero.getDimension();
+        int tamanio = 200 / this.tablero.getDimension();
 
-//        lineaTemp = UtilesTablero.buscarLinea(mouseX, mouseY,
-//                this.sala.getTablero().getLineasHorizontales(),
-//                this.sala.getTablero().getLineasVerticales(),
-//                jugador, espaciado, tamanio);
+        double espaciado = UtilesTablero.obtenerEspaciadoDePuntos(cantidad, this.getHeight());
+
+        lineaTemp = UtilesTablero.buscarLinea(mouseX, mouseY,
+                this.tablero.getLineasHorizontales(),
+                this.tablero.getLineasVerticales(),
+                jugador, espaciado, tamanio);
 
         repaint();
+    }
+
+    @Override
+    public void agrega(PnlObservador observador) {
+        this.observadores.add(observador);
+    }
+
+    @Override
+    public void notificaForma(FormaJuego forma) {
+        for (PnlObservador observador : observadores) {
+            observador.actualiza(forma);
+        }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

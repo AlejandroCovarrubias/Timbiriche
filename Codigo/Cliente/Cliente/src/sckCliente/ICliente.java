@@ -5,7 +5,7 @@
  */
 package sckCliente;
 
-import presentacion.IActualizable;
+import presentacion.inicio.IActualizable;
 
 /**
  *

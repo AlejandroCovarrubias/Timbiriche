@@ -46,8 +46,6 @@ public class IPAFTest {
         
         instance.crearSala(jugadores);
         
-        SalaDTO salaDTO = accesoRepo.obtenerRespuesta();
-//        System.out.println(salaDTO);
     }
 
     /**
@@ -63,8 +61,6 @@ public class IPAFTest {
         instance.crearSala(jugadores);
         instance.asignarLinea(linea);
         
-        SalaDTO salaDTO = accesoRepo.obtenerRespuesta();
-//        System.out.println(salaDTO);
     }
 
     /**
@@ -81,8 +77,6 @@ public class IPAFTest {
         instance.crearSala(jugadores);
         instance.asignarCuadro(cuadro);
         
-        SalaDTO salaDTO = accesoRepo.obtenerRespuesta();
-//        System.out.println(salaDTO);
     }
 
     /**
@@ -103,7 +97,5 @@ public class IPAFTest {
         instance.asignarCuadro(cuadro1);
         instance.asignarCuadro(cuadro2);
         
-        SalaDTO salaDTO = accesoRepo.obtenerRespuesta();
-        System.out.println(salaDTO);
     }    
 }

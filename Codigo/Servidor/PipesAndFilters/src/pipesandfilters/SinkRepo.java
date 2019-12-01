@@ -14,7 +14,9 @@ import Dominio.*;
 public class SinkRepo {
 
     private volatile static SinkRepo instance;
-    private Sala sala;
+    private volatile Sala sala;
+    private volatile Linea ultimaLinea;
+    private volatile Cuadro ultimoCuadro;
 
     private SinkRepo() {
         sala = new Sala();
@@ -36,14 +38,12 @@ public class SinkRepo {
     }
 
     public synchronized void asignarLinea(Linea linea) {
-        for (Jugador jugador : this.sala.getMarcador().getJugadores()) {
-            if (jugador.equals(linea.getJugador())) {
-                if (linea.getPosicion().equals("HORIZONTAL")) {
-                    this.sala.getTablero().getLineasHorizontales().get(linea.getIndice()).setJugador(jugador);
-                } else if (linea.getPosicion().equals("VERTICAL")) {
-                    this.sala.getTablero().getLineasVerticales().get(linea.getIndice()).setJugador(jugador);
-                }
-            }
+        if(linea.getPosicion() == Posicion.HORIZONTAL){
+            this.sala.getTablero().getLineasHorizontales().get(linea.getIndice()).setJugador(linea.getJugador());
+            this.ultimaLinea = this.sala.getTablero().getLineasHorizontales().get(linea.getIndice());
+        }else if(linea.getPosicion() == Posicion.VERTICAL){
+            this.sala.getTablero().getLineasHorizontales().get(linea.getIndice()).setJugador(linea.getJugador());
+            this.ultimaLinea = this.sala.getTablero().getLineasVerticales().get(linea.getIndice());
         }
     }
 
@@ -52,6 +52,7 @@ public class SinkRepo {
             if(jugador.equals(cuadro.getJugador())){
                 this.sala.getTablero().getCuadros().get(cuadro.getIndice()).setJugador(jugador);
                 jugador.setPuntaje(jugador.getPuntaje()+1);
+                this.ultimoCuadro = this.sala.getTablero().getCuadros().get(cuadro.getIndice());
             }
         }
     }
@@ -84,5 +85,21 @@ public class SinkRepo {
 
     public synchronized Sala getSala() {
         return sala;
+    }
+    
+    public synchronized Marcador obtenerMarcador(){
+        return this.sala.getMarcador();
+    }
+    
+    public synchronized Linea obtenerUltimaLinea(){
+        return this.ultimaLinea;
+    }
+    
+    public synchronized Cuadro obtenerUltimoCuadro(){
+        return this.ultimoCuadro;
+    }
+    
+    public synchronized int obtenerTurnoSiguiente(){
+        return this.sala.getMarcador().getSiguiente();
     }
 }

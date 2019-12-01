@@ -3,12 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pipesandfilters;
+package pipesandfilters.commands;
 
 import DominioDTO.CuadroDTO;
 import DominioDTO.JugadorDTO;
 import DominioDTO.LineaDTO;
 import java.util.List;
+import pipesandfilters.IPAF;
 
 /**
  *
