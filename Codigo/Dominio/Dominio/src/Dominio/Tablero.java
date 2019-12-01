@@ -18,6 +18,13 @@ public class Tablero {
     private List<Linea> lineasVerticales;
     private List<Cuadro> cuadros;
     private List<Punto> puntos;
+    
+    public Tablero(){
+        lineasHorizontales = new ArrayList<>();
+        lineasVerticales = new ArrayList<>();
+        cuadros = new ArrayList<>();
+        puntos = new ArrayList<>();
+    }
 
     public Tablero(int tamanio) {
         lineasHorizontales = new ArrayList<>();
@@ -28,20 +35,17 @@ public class Tablero {
         switch (tamanio) {
             case 2:
                 this.dimension = 10;
-                generaInstanciasDeFormaJuego();
                 break;
             case 3:
                 this.dimension = 20;
-                generaInstanciasDeFormaJuego();
                 break;
             case 4:
                 this.dimension = 40;
-                generaInstanciasDeFormaJuego();
                 break;
         }
     }
 
-    private void generaInstanciasDeFormaJuego() {
+    public void generaInstanciasDeFormaJuego() {
         //Todo esto se crea para poder asignar un jugador despues
         //Crea instancias de lineas y las guarda en una estructura
         for (int i = 0; i < ((dimension - 1) * dimension); i++) {

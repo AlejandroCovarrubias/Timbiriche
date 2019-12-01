@@ -5,12 +5,13 @@
  */
 package presentacion.juego;
 
-import Dominio.Linea;
+import Dominio.FormaJuego;
 
 /**
  *
  * @author Alejandro Galindo
  */
 public interface PnlObservable {
-    void actualiza(Linea linea);
+    void agrega(PnlObservador observador);
+    void notificaForma(FormaJuego forma);
 }

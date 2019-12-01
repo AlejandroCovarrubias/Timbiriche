@@ -18,8 +18,10 @@ import java.util.List;
 public class SckServer {
 
     static volatile List<SckServerThread> threads = new ArrayList<>();
-    
+
     static int MAX = 2;
+
+    private SckServerProtocol ssp = new SckServerProtocol();
 
     /**
      * @param args the command line arguments
@@ -40,11 +42,11 @@ public class SckServer {
                 SckServerThread sst = new SckServerThread(s, threads, MAX);
 
                 Thread t = new Thread(sst);
-                
+
                 threads.add(sst);
 
                 t.start();
-            }else{
+            } else {
                 System.out.println("Servidor lleno. Máximo número de conexiones simultaneas");
             }
         }

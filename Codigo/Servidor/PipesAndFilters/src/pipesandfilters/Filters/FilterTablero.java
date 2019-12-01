@@ -18,6 +18,7 @@ public class FilterTablero implements Filter<Integer, Tablero, PipeTablero>{
     public void procesar(Integer objeto) {
         //
         Tablero tablero = new Tablero(objeto);
+        tablero.generaInstanciasDeFormaJuego();
         PipeTablero pt = new PipeTablero();
         pt.pasar(tablero);
     } 

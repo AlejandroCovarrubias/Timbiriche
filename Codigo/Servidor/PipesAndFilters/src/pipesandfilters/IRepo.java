@@ -5,6 +5,9 @@
  */
 package pipesandfilters;
 
+import DominioDTO.CuadroDTO;
+import DominioDTO.LineaDTO;
+import DominioDTO.MarcadorDTO;
 import DominioDTO.SalaDTO;
 
 /**
@@ -12,5 +15,8 @@ import DominioDTO.SalaDTO;
  * @author Alejandro Galindo
  */
 public interface IRepo {
-    SalaDTO obtenerRespuesta();
+    MarcadorDTO obtenerMarcador();
+    LineaDTO obtenerUltimaLinea();
+    CuadroDTO obtenerUltimoCuadro();
+    int obtenerTurnoSiguiente();
 }

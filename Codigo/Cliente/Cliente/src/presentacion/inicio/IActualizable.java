@@ -3,14 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sckclient;
+package presentacion.inicio;
 
 /**
  *
  * @author Alejandro Galindo
  */
-public interface ICliente { 
-    boolean conectarAlServidor(String address, int port);
-    boolean enviarAlServidor(Object mensaje);
-    Object escucharAlServidor();
+public interface IActualizable {
+    void actualizaDeSocket(Object mensaje);
 }

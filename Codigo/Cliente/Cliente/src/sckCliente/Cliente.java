@@ -9,8 +9,9 @@ import Dominio.Cuadro;
 import Dominio.Jugador;
 import Dominio.Linea;
 import DominioDTO.JugadorDTO;
+import DominioDTO.MensajeSockets;
 import java.io.IOException;
-import presentacion.IActualizable;
+import presentacion.inicio.IActualizable;
 
 /**
  *
@@ -46,10 +47,15 @@ public class Cliente implements ICliente {
                 sckCliente.enviarAlServidor(mensajeNuevo);
                 return true;
             } else if (mensaje instanceof Linea) {
+                //Pasar mensaje a LineaDTO
                 return true;
             } else if (mensaje instanceof Cuadro) {
+                //Pasar mensaje a CuadroDTO
                 return true;
             } else if (mensaje instanceof String){
+                sckCliente.enviarAlServidor(mensaje);
+                return true;
+            } else if(mensaje instanceof MensajeSockets){
                 sckCliente.enviarAlServidor(mensaje);
                 return true;
             }

@@ -1,8 +1,10 @@
 /**
  * FrmCreadorDeSala.java
  */
-package Presentacion;
+package presentacion;
 
+import presentacion.juego.FrmSala;
+import presentacion.inicio.MenuInicial;
 import Dominio.Jugador;
 
 /**
@@ -196,10 +198,6 @@ public class FrmCreadorDeSala extends javax.swing.JFrame {
     }//GEN-LAST:event_cuatroButtonActionPerformed
 
     private void crearSala(){
-        FabricaSala fbrSala = new FabricaSala();
-        FrmSala sala = (FrmSala) fbrSala.creaSala(jugador, tamanio);
-        sala.setVisible(true);
-        this.dispose();
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
