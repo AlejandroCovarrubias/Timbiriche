@@ -52,6 +52,7 @@ public class PnlJugador extends javax.swing.JPanel {
     public void setPuntaje(int puntaje){
         this.jugador.setPuntaje(puntaje);
         this.labelPtj.setText(puntaje + "");
+        this.labelPtj.revalidate();
     }
 
     /**

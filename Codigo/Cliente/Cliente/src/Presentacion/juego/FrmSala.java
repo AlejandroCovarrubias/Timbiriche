@@ -10,6 +10,7 @@ import Dominio.Linea;
 import Dominio.Marcador;
 import Dominio.Sala;
 import Dominio.Tablero;
+import java.util.List;
 import presentacion.inicio.IActualizable;
 import sckCliente.Cliente;
 import sckCliente.ICliente;
@@ -28,6 +29,8 @@ public class FrmSala extends javax.swing.JFrame implements PnlObservador, IActua
     private Jugador jugador;
     
     private ICliente sck;
+    
+    private PnlTablero pnlTablero;
 
     /**
      * Constructor de FrmSala.
@@ -39,6 +42,7 @@ public class FrmSala extends javax.swing.JFrame implements PnlObservador, IActua
         initComponents();
         this.setTitle("Sala de juego - " + jugador.getNombre());
         this.setLocationRelativeTo(null);
+        this.setResizable(false);
         
         this.sck = new Cliente(this.jugador, this);
         
@@ -92,9 +96,37 @@ public class FrmSala extends javax.swing.JFrame implements PnlObservador, IActua
             
         }
     }
+    
+    private void actualizarMarcador(Marcador marcador){
+        for (int i = 0; i < this.sala.getMarcador().getJugadores().size(); i++) {
+            switch (i) {
+                case 0:
+                    ((PnlJugador) pnlJugador1.getComponent(0)).setPuntaje(marcador.getJugadores().get(i).getPuntaje());
+                    pnlJugador1.revalidate();
+                    break;
+                case 1:
+                    ((PnlJugador) pnlJugador2.getComponent(0)).setPuntaje(marcador.getJugadores().get(i).getPuntaje());
+                    pnlJugador2.revalidate();
+                    break;
+                case 2:
+                    ((PnlJugador) pnlJugador3.getComponent(0)).setPuntaje(marcador.getJugadores().get(i).getPuntaje());
+                    pnlJugador3.revalidate();
+                    break;
+                case 3:
+                    ((PnlJugador) pnlJugador4.getComponent(0)).setPuntaje(marcador.getJugadores().get(i).getPuntaje());
+                    pnlJugador4.revalidate();
+                    break;
+                default:
+                    break;
+            }
+            
+            this.validate();
+        }
+    }
 
     private void establecerTablero(){
-        PnlTablero pnlTablero = new PnlTablero(this.sala.getTablero(), jugador);
+        this.pnlTablero = new PnlTablero(this.sala.getTablero(), jugador);
+        pnlTablero.agrega(this);
         
         pnlTablero.setSize(this.pnlFondoTablero.getSize());
         pnlTablero.setBorder(this.pnlFondoTablero.getBorder());
@@ -323,6 +355,39 @@ public class FrmSala extends javax.swing.JFrame implements PnlObservador, IActua
 
     @Override
     public void actualizaDeSocket(Object mensaje) {
-        
+        if(mensaje instanceof Marcador){
+            Marcador marcador = (Marcador) mensaje;
+            actualizarMarcador((Marcador) mensaje);
+            
+            for (int i = 0; i < marcador.getJugadores().size(); i++) {
+                if(marcador.getJugadores().indexOf(this.jugador) == marcador.getSiguiente()){
+                    this.pnlTablero.actualizaTurno(true);
+                }
+            }
+        }else if(mensaje instanceof Linea){
+            Linea linea = (Linea) mensaje;
+
+            List<Jugador> jugadores = this.sala.getMarcador().getJugadores();
+            for (Jugador jug : jugadores) {
+                if(jug.equals(linea.getJugador())){
+                    linea.setJugador(jug);
+                }
+            }
+            
+            this.pnlTablero.actualizaLineaTablero(linea);
+        }else if(mensaje instanceof Cuadro){
+            System.out.println("llego un cuadro");
+            Cuadro cuadro = (Cuadro) mensaje;
+            
+            List<Jugador> jugadores = this.sala.getMarcador().getJugadores();
+            for (Jugador jug : jugadores) {
+                if(jug.equals(cuadro.getJugador())){
+                    cuadro.setJugador(jug);
+                }
+            }
+            
+            this.pnlTablero.actualizaCuadroTablero(cuadro);
+            
+        }
     }
 }

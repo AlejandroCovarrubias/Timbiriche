@@ -14,7 +14,6 @@ import DominioDTO.CuadroDTO;
 import DominioDTO.JugadorDTO;
 import DominioDTO.LineaDTO;
 import DominioDTO.MarcadorDTO;
-import DominioDTO.SalaDTO;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -55,19 +54,19 @@ public class SckClient implements Runnable {
         return instance;
     }
 
-    public void conectarAlServidor(String address, int port) throws IOException {
+    public synchronized void conectarAlServidor(String address, int port) throws IOException {
         socket = new Socket(address, port);
         clientOutput = new ObjectOutputStream(socket.getOutputStream());
         clientOutput.flush();
         clientInput = new ObjectInputStream(socket.getInputStream());
     }
 
-    public void enviarAlServidor(Object mensaje) throws IOException {
+    public synchronized void enviarAlServidor(Object mensaje) throws IOException {
         clientOutput.writeObject(mensaje);
         clientOutput.flush();
     }
 
-    public void escucharAlServidor() throws IOException, ClassNotFoundException {
+    public synchronized void escucharAlServidor() throws IOException, ClassNotFoundException {
         Thread t = new Thread(this);
         t.start();
     }
@@ -96,12 +95,35 @@ public class SckClient implements Runnable {
                     List<Jugador> jugadores = new ArrayList<>();
 
                     for (JugadorDTO jugador : jugadoresDTO) {
-                        jugadores.add(new Jugador(jugador.getNombreJugador(), jugador.getRutaAvatar()));
+                        jugadores.add(new Jugador(jugador.getNombreJugador(), jugador.getRutaAvatar(), jugador.getPuntaje()));
                     }
-                    
+
                     Marcador marcador = new Marcador(jugadores);
-                    
+
                     objeto = marcador;
+                } else if (objeto instanceof LineaDTO) {
+                    LineaDTO lineaDTO = (LineaDTO) objeto;
+
+                    Linea linea = new Linea(
+                            Posicion.valueOf(lineaDTO.getPosicion()),
+                            new Jugador(
+                                    lineaDTO.getJugador().getNombreJugador(),
+                                    lineaDTO.getJugador().getRutaAvatar(),
+                                    lineaDTO.getJugador().getPuntaje()),
+                            lineaDTO.getIndice());
+
+                    objeto = linea;
+                } else if (objeto instanceof CuadroDTO) {
+                    CuadroDTO cuadroDTO = (CuadroDTO) objeto;
+
+                    Cuadro cuadro = new Cuadro(
+                            new Jugador(
+                                    cuadroDTO.getJugador().getNombreJugador(),
+                                    cuadroDTO.getJugador().getRutaAvatar(),
+                                    cuadroDTO.getJugador().getPuntaje()),
+                            cuadroDTO.getIndice());
+
+                    objeto = cuadro;
                 }
 
                 SwingUtilities.invokeLater(new Runnable() {

@@ -7,6 +7,7 @@ import Dominio.Cuadro;
 import Dominio.FormaJuego;
 import Dominio.Jugador;
 import Dominio.Linea;
+import Dominio.Posicion;
 import Dominio.Punto;
 import Dominio.Tablero;
 import java.awt.Color;
@@ -39,6 +40,8 @@ public class PnlTablero extends javax.swing.JPanel implements PnlObservable, Mou
     private Linea lineaTemp = null;
     
     private List<PnlObservador> observadores;
+    
+    private boolean turno;
     
 
     /**
@@ -188,9 +191,12 @@ public class PnlTablero extends javax.swing.JPanel implements PnlObservable, Mou
             } else {
                 lineaEncontrada.setJugador(jugador);
                 notificaForma(lineaEncontrada);
-                Cuadro mov = UtilesTablero.verificarMovimiento(this.tablero.getCuadros(), lineaEncontrada, jugador);
-                if(mov != null){
-                    notificaForma(mov);
+                List<Cuadro> cuadros = UtilesTablero.verificarMovimiento(this.tablero.getCuadros(), lineaEncontrada, jugador);
+
+                for (Cuadro cuadro : cuadros) {
+                    if(cuadro.getJugador() != null){
+                        notificaForma(cuadro);
+                    }
                 }
             }
         }
@@ -253,6 +259,24 @@ public class PnlTablero extends javax.swing.JPanel implements PnlObservable, Mou
         for (PnlObservador observador : observadores) {
             observador.actualiza(forma);
         }
+    }
+    
+    public void actualizaLineaTablero(Linea linea){
+        if(linea.getPosicion() == Posicion.HORIZONTAL){
+            this.tablero.getLineasHorizontales().get(linea.getIndice()).setJugador(linea.getJugador());
+        }else if(linea.getPosicion() == Posicion.VERTICAL){
+            this.tablero.getLineasVerticales().get(linea.getIndice()).setJugador(linea.getJugador());
+        }
+    }
+    
+    public void actualizaCuadroTablero(Cuadro cuadro){
+        System.out.println("actualizando cuadrotablero");
+        this.tablero.getCuadros().get(cuadro.getIndice()).setJugador(cuadro.getJugador());
+    }
+    
+    public void actualizaTurno(boolean turno){
+        this.turno = turno;
+        this.setVisible(turno);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

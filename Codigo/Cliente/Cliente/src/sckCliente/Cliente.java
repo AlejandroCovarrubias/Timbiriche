@@ -8,7 +8,9 @@ package sckCliente;
 import Dominio.Cuadro;
 import Dominio.Jugador;
 import Dominio.Linea;
+import DominioDTO.CuadroDTO;
 import DominioDTO.JugadorDTO;
+import DominioDTO.LineaDTO;
 import DominioDTO.MensajeSockets;
 import java.io.IOException;
 import presentacion.inicio.IActualizable;
@@ -47,10 +49,29 @@ public class Cliente implements ICliente {
                 sckCliente.enviarAlServidor(mensajeNuevo);
                 return true;
             } else if (mensaje instanceof Linea) {
-                //Pasar mensaje a LineaDTO
+                Linea linea = (Linea) mensaje;
+                LineaDTO mensajeNuevo = 
+                        new LineaDTO(
+                                linea.getPosicion().toString(), 
+                                linea.getIndice(), 
+                                new JugadorDTO(
+                                        linea.getJugador().getNombre(), 
+                                        linea.getJugador().getRutaAvatar(), 
+                                        linea.getJugador().getPuntaje()));
+                
+                sckCliente.enviarAlServidor(mensajeNuevo);
                 return true;
             } else if (mensaje instanceof Cuadro) {
-                //Pasar mensaje a CuadroDTO
+                Cuadro cuadro = (Cuadro) mensaje;
+                CuadroDTO mensajeNuevo = 
+                        new CuadroDTO(
+                                cuadro.getIndice(), 
+                                new JugadorDTO(
+                                        cuadro.getJugador().getNombre(), 
+                                        cuadro.getJugador().getRutaAvatar(), 
+                                        cuadro.getJugador().getPuntaje()));
+                
+                sckCliente.enviarAlServidor(mensajeNuevo);
                 return true;
             } else if (mensaje instanceof String){
                 sckCliente.enviarAlServidor(mensaje);

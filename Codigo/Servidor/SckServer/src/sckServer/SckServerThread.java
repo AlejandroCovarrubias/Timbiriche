@@ -5,9 +5,11 @@
  */
 package sckServer;
 
+import DominioDTO.CuadroDTO;
 import DominioDTO.JugadorDTO;
+import DominioDTO.LineaDTO;
+import DominioDTO.MarcadorDTO;
 import DominioDTO.MensajeSockets;
-import DominioDTO.SalaDTO;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -49,7 +51,7 @@ public class SckServerThread implements Runnable {
 
         while (true) {
             try {
-                
+
                 //Lee entrada
                 mensajeEntrante = input.readObject();
 
@@ -69,19 +71,19 @@ public class SckServerThread implements Runnable {
 
                     //La transmite a todos para actualizar
                     transmitirATodos(jugadores);
-                    
-                    if(threads.size() == MAX){
+
+                    if (threads.size() == MAX) {
                         Object empezarPartida = ssp.empezarPartida(jugadores);
                         transmitirATodos(empezarPartida);
                     }
-                    
-                //Si es un voto
+
+                    //Si es un voto
                 } else if (mensajeSaliente == MensajeSockets.VOTO) {
                     //Si no voto
                     if (this.votado == false) {
                         this.votado = true;
                         mensajeSaliente = this.jugadorDTO.getNombreJugador() + " ha votado";
-                    //Si ya habia votado
+                        //Si ya habia votado
                     } else {
                         this.votado = false;
                         mensajeSaliente = this.jugadorDTO.getNombreJugador() + " ha cancelado el voto";
@@ -89,8 +91,15 @@ public class SckServerThread implements Runnable {
 
                     //Retorna accion
                     transmitirATodos(mensajeSaliente);
+                } else if (mensajeSaliente instanceof LineaDTO) {
+                    transmitirATodos(mensajeSaliente);
+                } else if (mensajeSaliente instanceof CuadroDTO) {
+                    transmitirATodos(mensajeSaliente);
+                    Object marcador = ssp.procesarEntrada(MensajeSockets.MARCADOR);
+                    transmitirATodos(marcador);
+                }else if (mensajeSaliente instanceof MarcadorDTO){
+                    transmitirATodos(mensajeSaliente);
                 }
-
 
             } catch (IOException | ClassNotFoundException ex) {
                 Logger.getLogger(SckServerThread.class.getName()).log(Level.SEVERE, null, ex);
@@ -122,7 +131,7 @@ public class SckServerThread implements Runnable {
         this.votado = votado;
     }
 
-    public void transmitirASiMismo(Object mensaje) {
+    public synchronized void transmitirASiMismo(Object mensaje) {
         try {
             this.output.writeObject(mensaje);
             this.output.flush();
@@ -131,7 +140,7 @@ public class SckServerThread implements Runnable {
         }
     }
 
-    public void transmitirATodos(Object mensaje) {
+    public synchronized void transmitirATodos(Object mensaje) {
         for (SckServerThread thread : threads) {
             try {
                 thread.output.writeObject(mensaje);
