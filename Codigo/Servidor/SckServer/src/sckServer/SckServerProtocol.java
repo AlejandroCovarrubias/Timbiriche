@@ -9,7 +9,6 @@ import DominioDTO.CuadroDTO;
 import DominioDTO.JugadorDTO;
 import DominioDTO.LineaDTO;
 import DominioDTO.MensajeSockets;
-import DominioDTO.SalaDTO;
 import java.util.List;
 import pipesandfilters.AccesoRepo;
 import pipesandfilters.IPAF;
@@ -21,49 +20,56 @@ import pipesandfilters.commands.InvocadorPln;
  * @author Alejandro Galindo
  */
 public class SckServerProtocol {
-    
+
     private IPAF ipaf;
     private IRepo repo;
-    
-    public SckServerProtocol(){
+
+    public SckServerProtocol() {
         this.ipaf = new InvocadorPln();
         this.repo = new AccesoRepo();
     }
-    
-    public Object procesarEntrada(Object mensajeEntrante){
-        
+
+    public Object procesarEntrada(Object mensajeEntrante) {
+
         //Si despues de realizada la conexion, el socket del cliente manda los
         //datos del jugador, le avisa al Thread que efectivamente son los datos
-        if(mensajeEntrante instanceof JugadorDTO){
+        if (mensajeEntrante instanceof JugadorDTO) {
             return MensajeSockets.JUGADOR_NUEVO;
-            
-        //Si se reciben los datos de una lineaDTO, se manda al componente 
-        //PipesAndFilters para realizar la conversion correspondiente, asignar 
-        //y obtener respuesta
-        }else if(mensajeEntrante instanceof LineaDTO){
+
+            //Si se reciben los datos de una lineaDTO, se manda al componente 
+            //PipesAndFilters para realizar la conversion correspondiente, asignar 
+            //y obtener respuesta
+        } else if (mensajeEntrante instanceof LineaDTO) {
             LineaDTO lineaP = (LineaDTO) mensajeEntrante;
             ipaf.asignarLinea(lineaP);
-            return repo.obtenerUltimaLinea();
-            
-        //Si se reciben los datos de un CuadroDTO, se manda al componente
-        //PipesAndFilters para realizar la conversion correspondiente, asignar
-        // y obtener una respuesta
-        }else if(mensajeEntrante instanceof CuadroDTO){
+            LineaDTO oul = repo.obtenerUltimaLinea();
+            System.out.println(oul);
+            return oul;
+
+            //Si se reciben los datos de un CuadroDTO, se manda al componente
+            //PipesAndFilters para realizar la conversion correspondiente, asignar
+            // y obtener una respuesta
+        } else if (mensajeEntrante instanceof CuadroDTO) {
             CuadroDTO cuadroP = (CuadroDTO) mensajeEntrante;
             ipaf.asignarCuadro(cuadroP);
-            return repo.obtenerUltimoCuadro();
-            
-        //Si un cliente vota, se verifica y se manda respuesta
-        }else if(mensajeEntrante == MensajeSockets.VOTO){
+
+            CuadroDTO ouc = repo.obtenerUltimoCuadro();
+            System.out.println(ouc);
+            return ouc;
+
+            //Si un cliente vota, se verifica y se manda respuesta
+        } else if (mensajeEntrante == MensajeSockets.VOTO) {
             return MensajeSockets.VOTO;
-        }else if(mensajeEntrante == MensajeSockets.TURNO_TERMINADO){
+        } else if (mensajeEntrante == MensajeSockets.TURNO_TERMINADO) {
             return repo.obtenerTurnoSiguiente();
+        } else if (mensajeEntrante == MensajeSockets.MARCADOR){
+            return repo.obtenerMarcador();
         }
-        
+
         return null;
     }
-    
-    public Object empezarPartida(List<JugadorDTO> jugadoresDTO){
+
+    public Object empezarPartida(List<JugadorDTO> jugadoresDTO) {
         ipaf.crearSala(jugadoresDTO);
         return repo.obtenerMarcador();
     }

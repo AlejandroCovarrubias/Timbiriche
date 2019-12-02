@@ -43,27 +43,30 @@ public class AccesoRepo implements IRepo {
     @Override
     public LineaDTO obtenerUltimaLinea() {
         Linea linea = sr.obtenerUltimaLinea();
-        LineaDTO lineaDTO = 
-                new LineaDTO(
-                linea.getPosicion().toString(),
-                linea.getIndice(),
-                new JugadorDTO(
-                        linea.getJugador().getNombre(),
-                        linea.getJugador().getRutaAvatar(),
-                        linea.getJugador().getPuntaje()));
-        
-        return lineaDTO;
+        if (linea != null) {
+            LineaDTO lineaDTO
+                    = new LineaDTO(
+                            linea.getPosicion().toString(),
+                            linea.getIndice(),
+                            new JugadorDTO(
+                                    linea.getJugador().getNombre(),
+                                    linea.getJugador().getRutaAvatar(),
+                                    linea.getJugador().getPuntaje()));
+            return lineaDTO;
+        }else{
+            return null;
+        }
     }
 
     @Override
     public CuadroDTO obtenerUltimoCuadro() {
         Cuadro cuadro = sr.obtenerUltimoCuadro();
-        CuadroDTO cuadroDTO = 
-                new CuadroDTO(cuadro.getIndice(), 
-                        new JugadorDTO(cuadro.getJugador().getNombre(), 
-                                cuadro.getJugador().getRutaAvatar(), 
+        CuadroDTO cuadroDTO
+                = new CuadroDTO(cuadro.getIndice(),
+                        new JugadorDTO(cuadro.getJugador().getNombre(),
+                                cuadro.getJugador().getRutaAvatar(),
                                 cuadro.getJugador().getPuntaje()));
-        
+
         return cuadroDTO;
     }
 

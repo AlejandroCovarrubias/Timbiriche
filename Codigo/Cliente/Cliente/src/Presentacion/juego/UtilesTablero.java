@@ -23,6 +23,10 @@ public class UtilesTablero {
      * Metodo que genera los puntos segun el tamano del tablero y retorna una
      * coleccion de ellos.
      *
+     * @param height
+     * @param width
+     * @param tamanio
+     * @param espaciado
      * @return
      */
     public static List<Punto> creaPuntos(double height, double width,
@@ -47,11 +51,16 @@ public class UtilesTablero {
      * Metodo que crea las lineas verticales del tablero y regresa una coleccion
      * de ellas.
      *
+     * @param height
+     * @param tamanio
+     * @param width
+     * @param espaciado
+     * @param qtyPuntos
      * @return
      */
     public static List<Linea> creaLineasHorizontales(double height, double width,
             double tamanio, double espaciado, int qtyPuntos) {
-        List<Linea> lineasVerticales = new ArrayList<>();
+        List<Linea> lineasHorizontales = new ArrayList<>();
         //Se crean n matrices de n - 1 lineas
         //Donde n es igual al ancho/alto del tablero
         //El cual se determina segun el numero de jugadores (size)
@@ -60,34 +69,49 @@ public class UtilesTablero {
         for (int i = 0; i < qtyPuntos; i++) {
             for (double j = (width * .03); j < ((width * .97) - espaciado);
                     j += espaciado) {
-                lineasVerticales.add(new Linea(Posicion.VERTICAL, lineasVerticales.size(), (int) (espaciado - tamanio),
-                        (int) tamanio, (int) (j + tamanio), (int) altura));
+                lineasHorizontales.add(
+                        new Linea(Posicion.HORIZONTAL, 
+                                lineasHorizontales.size(), 
+                                (int) (espaciado - tamanio),
+                                (int) tamanio, 
+                                (int) (j + tamanio), 
+                                (int) altura));
             }
             altura += espaciado;
         }
 
-        return lineasVerticales;
+        return lineasHorizontales;
     }
 
     /**
      * Metodo que crea las lineas horizontales del tablero y regresa una 
      * coleccion de ellas.
      *
+     * @param height
+     * @param width
+     * @param tamanio
+     * @param espaciado
+     * @param qtyPuntos
      * @return
      */
     public static List<Linea> creaLineasVerticales(double height,
             double width, double tamanio, double espaciado, int qtyPuntos) {
-        List<Linea> lineasHorizontales = new ArrayList<>();
+        List<Linea> lineasVerticales = new ArrayList<>();
         double anchura = (width * .03);
         for (int i = 0; i < qtyPuntos; i++) {
             for (double j = (height * .03); j < ((height * .97) - espaciado);
                     j += espaciado) {
-                lineasHorizontales.add(new Linea(Posicion.HORIZONTAL, lineasHorizontales.size(), (int) tamanio,
-                        (int) (espaciado - tamanio), (int) anchura, (int) (j + tamanio)));
+                lineasVerticales.add(
+                        new Linea(Posicion.VERTICAL, 
+                                lineasVerticales.size(), 
+                                (int) tamanio,
+                                (int) (espaciado - tamanio), 
+                                (int) anchura, 
+                                (int) (j + tamanio)));
             }
             anchura += espaciado;
         }
-        return lineasHorizontales;
+        return lineasVerticales;
     }
     
     /**
@@ -128,6 +152,8 @@ public class UtilesTablero {
      * Regresa el espacio entre los puntos del tablero. Cambia segun la altura
      * del tablero.
      *
+     * @param cantidadDePuntos
+     * @param height
      * @return
      */
     public static double obtenerEspaciadoDePuntos(int cantidadDePuntos,
@@ -160,6 +186,7 @@ public class UtilesTablero {
      * @param jugador
      * @param espaciado
      * @param tamanio
+     * @return 
      */
     public static Linea buscarLinea(int locateX, int locateY,
             List<Linea> lineasHorizontales, List<Linea> lineasVerticales,
@@ -217,7 +244,14 @@ public class UtilesTablero {
         return ((locateX > x && locateX < x2) && (locateY > y && locateY < y2));
     }
     
-    public static Cuadro verificarMovimiento(List<Cuadro> cuadros, Linea linea, Jugador jugador) {
+    /**
+     * 
+     * @param cuadros
+     * @param linea
+     * @param jugador
+     * @return 
+     */
+    public static List<Cuadro> verificarMovimiento(List<Cuadro> cuadros, Linea linea, Jugador jugador) {
         List<Cuadro> cuadrosTemporal = new ArrayList<>();
 
         for (Cuadro cuadro : cuadros) {
@@ -231,10 +265,9 @@ public class UtilesTablero {
         for (Cuadro cuadro : cuadrosTemporal) {
             if (cuadro.estaCompleto()) {
                 cuadro.setJugador(jugador);
-                return cuadro;
             }
         }
         
-        return null;
+        return cuadrosTemporal;
     }
 }

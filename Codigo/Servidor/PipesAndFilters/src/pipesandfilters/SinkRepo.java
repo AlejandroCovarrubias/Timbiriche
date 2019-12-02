@@ -42,7 +42,7 @@ public class SinkRepo {
             this.sala.getTablero().getLineasHorizontales().get(linea.getIndice()).setJugador(linea.getJugador());
             this.ultimaLinea = this.sala.getTablero().getLineasHorizontales().get(linea.getIndice());
         }else if(linea.getPosicion() == Posicion.VERTICAL){
-            this.sala.getTablero().getLineasHorizontales().get(linea.getIndice()).setJugador(linea.getJugador());
+            this.sala.getTablero().getLineasVerticales().get(linea.getIndice()).setJugador(linea.getJugador());
             this.ultimaLinea = this.sala.getTablero().getLineasVerticales().get(linea.getIndice());
         }
     }

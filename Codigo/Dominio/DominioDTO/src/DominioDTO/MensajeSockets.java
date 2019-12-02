@@ -12,5 +12,5 @@ import java.io.Serializable;
  * @author Alejandro Galindo
  */
 public enum MensajeSockets implements Serializable {
-    VOTO, CREAR_SALA, EMPEZAR_PARTIDA, JUGADOR_NUEVO, TURNO_TERMINADO
+    VOTO, CREAR_SALA, EMPEZAR_PARTIDA, JUGADOR_NUEVO, TURNO_TERMINADO, MARCADOR
 }
