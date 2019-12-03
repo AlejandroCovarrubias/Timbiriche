@@ -31880,14 +31880,14 @@ LineaDTO, CuadroDTO
 <XPD:REF name="Client">r4RsFbrF1U2ZsFZ/E1wVWQAA</XPD:REF>
 <XPD:REF name="Supplier">tqEz/W560ke2UtCEka57hwAA</XPD:REF>
 <XPD:ATTR name="#Views" type="integer">8</XPD:ATTR>
-<XPD:REF name="Views[0]">Y7Z9t3APY0yiUiV8rtkxiAAA</XPD:REF>
-<XPD:REF name="Views[1]">h3/ws/FgS0Gz/gJ1Oa4crQAA</XPD:REF>
-<XPD:REF name="Views[2]">kVo4CpCN20+QgW2OF6xQagAA</XPD:REF>
-<XPD:REF name="Views[3]">38j1bhaEwEKv9YVJaGGXagAA</XPD:REF>
-<XPD:REF name="Views[4]">GKy72cxa+0e75nRlQX07WgAA</XPD:REF>
-<XPD:REF name="Views[5]">ZkbWJK1sHEe644z8LnXhPAAA</XPD:REF>
-<XPD:REF name="Views[6]">Jw0FBsdqfU6TCxiJeJWGaAAA</XPD:REF>
-<XPD:REF name="Views[7]">nIjKf5iiG0anLAx+0Y4MPwAA</XPD:REF>
+<XPD:REF name="Views[0]">GKy72cxa+0e75nRlQX07WgAA</XPD:REF>
+<XPD:REF name="Views[1]">ZkbWJK1sHEe644z8LnXhPAAA</XPD:REF>
+<XPD:REF name="Views[2]">Jw0FBsdqfU6TCxiJeJWGaAAA</XPD:REF>
+<XPD:REF name="Views[3]">nIjKf5iiG0anLAx+0Y4MPwAA</XPD:REF>
+<XPD:REF name="Views[4]">Y7Z9t3APY0yiUiV8rtkxiAAA</XPD:REF>
+<XPD:REF name="Views[5]">h3/ws/FgS0Gz/gJ1Oa4crQAA</XPD:REF>
+<XPD:REF name="Views[6]">kVo4CpCN20+QgW2OF6xQagAA</XPD:REF>
+<XPD:REF name="Views[7]">38j1bhaEwEKv9YVJaGGXagAA</XPD:REF>
 </XPD:OBJ>
 <XPD:OBJ name="OwnedElements[41]" type="UMLDependency" guid="KajxhWzG0kukNt8PulKeRwAA">
 <XPD:REF name="Namespace">M8kEWT9VdEahhZ9D7FugugAA</XPD:REF>
