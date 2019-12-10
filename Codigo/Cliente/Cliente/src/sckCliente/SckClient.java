@@ -6,6 +6,7 @@
 package sckCliente;
 
 import Dominio.Cuadro;
+import Dominio.FormaJuego;
 import Dominio.Jugador;
 import Dominio.Linea;
 import Dominio.Marcador;
@@ -14,6 +15,8 @@ import DominioDTO.CuadroDTO;
 import DominioDTO.JugadorDTO;
 import DominioDTO.LineaDTO;
 import DominioDTO.MarcadorDTO;
+import DominioDTO.MovimientoDTO;
+import DominioDTO.RespuestaDTO;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -101,42 +104,69 @@ public class SckClient implements Runnable {
                     Marcador marcador = new Marcador(jugadores);
 
                     objeto = marcador;
-                } else if (objeto instanceof LineaDTO) {
-                    LineaDTO lineaDTO = (LineaDTO) objeto;
+                } else if (objeto instanceof RespuestaDTO) {
+                    MovimientoDTO movimiento = ((RespuestaDTO) objeto).getMovimiento();
+                    List<FormaJuego> formas = new ArrayList<>();
 
-                    Linea linea = new Linea(
-                            Posicion.valueOf(lineaDTO.getPosicion()),
-                            new Jugador(
-                                    lineaDTO.getJugador().getNombreJugador(),
-                                    lineaDTO.getJugador().getRutaAvatar(),
-                                    lineaDTO.getJugador().getPuntaje()),
-                            lineaDTO.getIndice());
+                    if (movimiento.getLinea() != null) {
+                        LineaDTO lineaDTO = movimiento.getLinea();
 
-                    objeto = linea;
-                } else if (objeto instanceof CuadroDTO) {
-                    CuadroDTO cuadroDTO = (CuadroDTO) objeto;
+                        Linea linea = new Linea(
+                                Posicion.valueOf(lineaDTO.getPosicion()),
+                                new Jugador(
+                                        lineaDTO.getJugador().getNombreJugador(),
+                                        lineaDTO.getJugador().getRutaAvatar(),
+                                        lineaDTO.getJugador().getPuntaje()),
+                                lineaDTO.getIndice());
 
-                    Cuadro cuadro = new Cuadro(
-                            new Jugador(
-                                    cuadroDTO.getJugador().getNombreJugador(),
-                                    cuadroDTO.getJugador().getRutaAvatar(),
-                                    cuadroDTO.getJugador().getPuntaje()),
-                            cuadroDTO.getIndice());
+                        formas.add(linea);
+                    }
 
-                    objeto = cuadro;
+                    for (CuadroDTO cuadroDTO : movimiento.getCuadros()) {
+                        Cuadro cuadro = new Cuadro(
+                                new Jugador(
+                                        cuadroDTO.getJugador().getNombreJugador(),
+                                        cuadroDTO.getJugador().getRutaAvatar(),
+                                        cuadroDTO.getJugador().getPuntaje()),
+                                cuadroDTO.getIndice());
+
+                        formas.add(cuadro);
+                    }
+
+                    MarcadorDTO marcadorDTO = ((RespuestaDTO) objeto).getMarcador();
+                    System.out.println("MarcadorDTO " + marcadorDTO);
+                    List<JugadorDTO> jugadoresDTO = marcadorDTO.getJugadores();
+                    List<Jugador> jugadores = new ArrayList<>();
+
+                    for (JugadorDTO jugador : jugadoresDTO) {
+                        jugadores.add(new Jugador(jugador.getNombreJugador(), jugador.getRutaAvatar(), jugador.getPuntaje()));
+                    }
+
+                    Marcador marcador = new Marcador(jugadores);
+                    System.out.println(marcador);
+                    objeto = marcador;
+
+                    //Solo para enviar el marcador
+                    mostrarCambios();
+
+                    objeto = formas;
                 }
 
-                SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        actualizable.actualizaDeSocket(objeto);
-                    }
-                });
+                mostrarCambios();
 
                 System.out.println(objeto);
             } catch (IOException | ClassNotFoundException ex) {
                 Logger.getLogger(SckClient.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+
+    private synchronized void mostrarCambios() {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                actualizable.actualizaDeSocket(objeto);
+            }
+        });
     }
 }

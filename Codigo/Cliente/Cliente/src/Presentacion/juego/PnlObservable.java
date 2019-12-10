@@ -6,6 +6,7 @@
 package presentacion.juego;
 
 import Dominio.FormaJuego;
+import java.util.List;
 
 /**
  *
@@ -13,5 +14,5 @@ import Dominio.FormaJuego;
  */
 public interface PnlObservable {
     void agrega(PnlObservador observador);
-    void notificaForma(FormaJuego forma);
+    void notificaMovimiento(List<FormaJuego> movimiento);
 }

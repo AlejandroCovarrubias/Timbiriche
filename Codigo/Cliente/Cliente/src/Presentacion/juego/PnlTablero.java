@@ -25,7 +25,7 @@ import javax.swing.JOptionPane;
  *
  * @author Alejandro Galindo, Francisco Felix
  */
-public class PnlTablero extends javax.swing.JPanel implements PnlObservable, MouseListener, MouseMotionListener{
+public class PnlTablero extends javax.swing.JPanel implements PnlObservable, MouseListener, MouseMotionListener {
 
     /**
      * Tablero que se dibuja
@@ -38,11 +38,10 @@ public class PnlTablero extends javax.swing.JPanel implements PnlObservable, Mou
     private Jugador jugador;
 
     private Linea lineaTemp = null;
-    
+
     private List<PnlObservador> observadores;
-    
+
     private boolean turno;
-    
 
     /**
      * Crea el pnlTablero
@@ -89,7 +88,7 @@ public class PnlTablero extends javax.swing.JPanel implements PnlObservable, Mou
                 puntoPl.renderizar(g);
             }
         }
-        
+
         int tamanio = 200 / this.tablero.getDimension();
         //itera en todos los cuadrados del tablero y los dibuja
         for (Cuadro cuadro : this.tablero.getCuadros()) {
@@ -101,9 +100,9 @@ public class PnlTablero extends javax.swing.JPanel implements PnlObservable, Mou
                 g2.setFont(new Font("Arial", Font.BOLD, tamanio));
                 g2.setColor(Color.black);
                 g2.drawString(
-                        String.valueOf(cuadro.obtenerInicial()).toUpperCase(), 
-                        cuadro.getX() + cuadro.getWidth()/2, 
-                        cuadro.getY() + cuadro.getHeight()/2);
+                        String.valueOf(cuadro.obtenerInicial()).toUpperCase(),
+                        cuadro.getX() + cuadro.getWidth() / 2,
+                        cuadro.getY() + cuadro.getHeight() / 2);
 
             }
         }
@@ -189,15 +188,19 @@ public class PnlTablero extends javax.swing.JPanel implements PnlObservable, Mou
             if (lineaEncontrada.getJugador() != null) {
                 JOptionPane.showMessageDialog(this, "Escoge una linea que no haya sido marcada anteriormente", "Error de juego", JOptionPane.INFORMATION_MESSAGE);
             } else {
+                List<FormaJuego> movimiento = new ArrayList<>();
                 lineaEncontrada.setJugador(jugador);
-                notificaForma(lineaEncontrada);
+                movimiento.add(lineaEncontrada);
+
                 List<Cuadro> cuadros = UtilesTablero.verificarMovimiento(this.tablero.getCuadros(), lineaEncontrada, jugador);
 
                 for (Cuadro cuadro : cuadros) {
-                    if(cuadro.getJugador() != null){
-                        notificaForma(cuadro);
+                    if (cuadro.getJugador() != null) {
+                        movimiento.add(cuadro);
                     }
                 }
+                
+                notificaMovimiento(movimiento);
             }
         }
 
@@ -254,29 +257,29 @@ public class PnlTablero extends javax.swing.JPanel implements PnlObservable, Mou
         this.observadores.add(observador);
     }
 
-    @Override
-    public void notificaForma(FormaJuego forma) {
-        for (PnlObservador observador : observadores) {
-            observador.actualiza(forma);
-        }
-    }
-    
-    public void actualizaLineaTablero(Linea linea){
-        if(linea.getPosicion() == Posicion.HORIZONTAL){
+    public void actualizaLineaTablero(Linea linea) {
+        if (linea.getPosicion() == Posicion.HORIZONTAL) {
             this.tablero.getLineasHorizontales().get(linea.getIndice()).setJugador(linea.getJugador());
-        }else if(linea.getPosicion() == Posicion.VERTICAL){
+        } else if (linea.getPosicion() == Posicion.VERTICAL) {
             this.tablero.getLineasVerticales().get(linea.getIndice()).setJugador(linea.getJugador());
         }
     }
-    
-    public void actualizaCuadroTablero(Cuadro cuadro){
-        System.out.println("actualizando cuadrotablero");
+
+    public void actualizaCuadroTablero(Cuadro cuadro) {
+        System.out.println(cuadro);
         this.tablero.getCuadros().get(cuadro.getIndice()).setJugador(cuadro.getJugador());
     }
-    
-    public void actualizaTurno(boolean turno){
+
+    public void actualizaTurno(boolean turno) {
         this.turno = turno;
         this.setVisible(turno);
+    }
+
+    @Override
+    public void notificaMovimiento(List<FormaJuego> movimiento) {
+        for (PnlObservador observador : observadores) {
+            observador.actualiza(movimiento);
+        }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

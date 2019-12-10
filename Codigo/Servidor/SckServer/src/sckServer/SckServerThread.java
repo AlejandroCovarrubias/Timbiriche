@@ -10,6 +10,8 @@ import DominioDTO.JugadorDTO;
 import DominioDTO.LineaDTO;
 import DominioDTO.MarcadorDTO;
 import DominioDTO.MensajeSockets;
+import DominioDTO.MovimientoDTO;
+import DominioDTO.RespuestaDTO;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -91,13 +93,9 @@ public class SckServerThread implements Runnable {
 
                     //Retorna accion
                     transmitirATodos(mensajeSaliente);
-                } else if (mensajeSaliente instanceof LineaDTO) {
+                } else if (mensajeSaliente instanceof MarcadorDTO) {
                     transmitirATodos(mensajeSaliente);
-                } else if (mensajeSaliente instanceof CuadroDTO) {
-                    transmitirATodos(mensajeSaliente);
-                    Object marcador = ssp.procesarEntrada(MensajeSockets.MARCADOR);
-                    transmitirATodos(marcador);
-                }else if (mensajeSaliente instanceof MarcadorDTO){
+                } else if (mensajeSaliente instanceof RespuestaDTO) {
                     transmitirATodos(mensajeSaliente);
                 }
 
@@ -150,5 +148,4 @@ public class SckServerThread implements Runnable {
             }
         }
     }
-
 }

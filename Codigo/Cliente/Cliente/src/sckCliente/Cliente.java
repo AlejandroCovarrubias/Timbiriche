@@ -6,13 +6,16 @@
 package sckCliente;
 
 import Dominio.Cuadro;
+import Dominio.FormaJuego;
 import Dominio.Jugador;
 import Dominio.Linea;
 import DominioDTO.CuadroDTO;
 import DominioDTO.JugadorDTO;
 import DominioDTO.LineaDTO;
 import DominioDTO.MensajeSockets;
+import DominioDTO.MovimientoDTO;
 import java.io.IOException;
+import java.util.List;
 import presentacion.inicio.IActualizable;
 
 /**
@@ -24,7 +27,6 @@ public class Cliente implements ICliente {
     private static Cliente instance;
 
     private SckClient sckCliente;
-      
 
     public Cliente(Jugador jugador, IActualizable actualizable) {
         this.sckCliente = SckClient.getInstance(jugador, actualizable);
@@ -48,35 +50,41 @@ public class Cliente implements ICliente {
                 JugadorDTO mensajeNuevo = new JugadorDTO(jugador.getNombre(), jugador.getRutaAvatar(), jugador.getPuntaje());
                 sckCliente.enviarAlServidor(mensajeNuevo);
                 return true;
-            } else if (mensaje instanceof Linea) {
-                Linea linea = (Linea) mensaje;
-                LineaDTO mensajeNuevo = 
-                        new LineaDTO(
-                                linea.getPosicion().toString(), 
-                                linea.getIndice(), 
-                                new JugadorDTO(
-                                        linea.getJugador().getNombre(), 
-                                        linea.getJugador().getRutaAvatar(), 
-                                        linea.getJugador().getPuntaje()));
-                
-                sckCliente.enviarAlServidor(mensajeNuevo);
+            } else if (mensaje instanceof List) {
+                MovimientoDTO movimiento = new MovimientoDTO();
+                List<FormaJuego> formas = (List<FormaJuego>) mensaje;
+
+                for (int i = 0; i < formas.size(); i++) {
+                    if (i == 0) {
+                        Linea linea = (Linea) formas.get(i);
+                        LineaDTO formaNueva
+                                = new LineaDTO(
+                                        linea.getPosicion().toString(),
+                                        linea.getIndice(),
+                                        new JugadorDTO(
+                                                linea.getJugador().getNombre(),
+                                                linea.getJugador().getRutaAvatar(),
+                                                linea.getJugador().getPuntaje()));
+                        movimiento.setLinea(formaNueva);
+                    } else {
+                        Cuadro cuadro = (Cuadro) formas.get(i);
+                        CuadroDTO formaNueva
+                                = new CuadroDTO(
+                                        cuadro.getIndice(),
+                                        new JugadorDTO(
+                                                cuadro.getJugador().getNombre(),
+                                                cuadro.getJugador().getRutaAvatar(),
+                                                cuadro.getJugador().getPuntaje()));
+                        movimiento.setCuadro(formaNueva);
+                    }
+                }
+
+                sckCliente.enviarAlServidor(movimiento);
                 return true;
-            } else if (mensaje instanceof Cuadro) {
-                Cuadro cuadro = (Cuadro) mensaje;
-                CuadroDTO mensajeNuevo = 
-                        new CuadroDTO(
-                                cuadro.getIndice(), 
-                                new JugadorDTO(
-                                        cuadro.getJugador().getNombre(), 
-                                        cuadro.getJugador().getRutaAvatar(), 
-                                        cuadro.getJugador().getPuntaje()));
-                
-                sckCliente.enviarAlServidor(mensajeNuevo);
-                return true;
-            } else if (mensaje instanceof String){
+            } else if (mensaje instanceof String) {
                 sckCliente.enviarAlServidor(mensaje);
                 return true;
-            } else if(mensaje instanceof MensajeSockets){
+            } else if (mensaje instanceof MensajeSockets) {
                 sckCliente.enviarAlServidor(mensaje);
                 return true;
             }
@@ -94,5 +102,4 @@ public class Cliente implements ICliente {
             System.out.println("Problemas al recibir la respuesta del servidor");
         }
     }
-
 }
