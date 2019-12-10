@@ -17,12 +17,15 @@ public class SckServer {
     static int MAX = 2;
 
     private SckServerProtocol ssp = new SckServerProtocol();
+    
+    
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException {
         ServerSocket ss = new ServerSocket(1234);
+        
         System.out.println("Servidor inicializado en el puerto 1234");
         System.out.println("Soportando un total de " + MAX + " jugadores");
 

@@ -9,13 +9,10 @@ import Dominio.Cuadro;
 import Dominio.Jugador;
 import Dominio.Linea;
 import Dominio.Marcador;
-import Dominio.Sala;
 import DominioDTO.CuadroDTO;
 import DominioDTO.JugadorDTO;
 import DominioDTO.LineaDTO;
 import DominioDTO.MarcadorDTO;
-import DominioDTO.SalaDTO;
-import DominioDTO.TableroDTO;
 import java.util.ArrayList;
 import java.util.List;
 

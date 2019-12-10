@@ -9,6 +9,8 @@ import DominioDTO.CuadroDTO;
 import DominioDTO.JugadorDTO;
 import DominioDTO.LineaDTO;
 import DominioDTO.MensajeSockets;
+import DominioDTO.MovimientoDTO;
+import DominioDTO.RespuestaDTO;
 import java.util.List;
 import pipesandfilters.AccesoRepo;
 import pipesandfilters.IPAF;
@@ -36,33 +38,29 @@ public class SckServerProtocol {
         if (mensajeEntrante instanceof JugadorDTO) {
             return MensajeSockets.JUGADOR_NUEVO;
 
-            //Si se reciben los datos de una lineaDTO, se manda al componente 
+            //Si se reciben los datos de un MovimientoDTO, se manda al componente 
             //PipesAndFilters para realizar la conversion correspondiente, asignar 
             //y obtener respuesta
-        } else if (mensajeEntrante instanceof LineaDTO) {
-            LineaDTO lineaP = (LineaDTO) mensajeEntrante;
-            ipaf.asignarLinea(lineaP);
-            LineaDTO oul = repo.obtenerUltimaLinea();
-            System.out.println(oul);
-            return oul;
-
-            //Si se reciben los datos de un CuadroDTO, se manda al componente
-            //PipesAndFilters para realizar la conversion correspondiente, asignar
-            // y obtener una respuesta
-        } else if (mensajeEntrante instanceof CuadroDTO) {
-            CuadroDTO cuadroP = (CuadroDTO) mensajeEntrante;
-            ipaf.asignarCuadro(cuadroP);
-
-            CuadroDTO ouc = repo.obtenerUltimoCuadro();
-            System.out.println(ouc);
-            return ouc;
-
+        } else if (mensajeEntrante instanceof MovimientoDTO) {
+            MovimientoDTO movimiento = (MovimientoDTO) mensajeEntrante;
+            
+            if(movimiento.getLinea() != null){
+                ipaf.asignarLinea(movimiento.getLinea());
+            }else if(movimiento.getCuadros() != null){
+                for (CuadroDTO cuadro : movimiento.getCuadros()) {
+                    ipaf.asignarCuadro(cuadro);
+                }
+            }
+            
+            RespuestaDTO respuesta = new RespuestaDTO(movimiento, repo.obtenerMarcador());
+            return respuesta;
+            
             //Si un cliente vota, se verifica y se manda respuesta
         } else if (mensajeEntrante == MensajeSockets.VOTO) {
             return MensajeSockets.VOTO;
         } else if (mensajeEntrante == MensajeSockets.TURNO_TERMINADO) {
             return repo.obtenerTurnoSiguiente();
-        } else if (mensajeEntrante == MensajeSockets.MARCADOR){
+        } else if (mensajeEntrante == MensajeSockets.MARCADOR) {
             return repo.obtenerMarcador();
         }
 

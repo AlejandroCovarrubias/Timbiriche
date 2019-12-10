@@ -6,11 +6,12 @@
 package presentacion.juego;
 
 import Dominio.FormaJuego;
+import java.util.List;
 
 /**
  *
  * @author Alejandro Galindo
  */
 public interface PnlObservador {
-    void actualiza(FormaJuego forma);
+    void actualiza(List<FormaJuego> movimiento);
 }

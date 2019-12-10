@@ -19,21 +19,22 @@ import sckCliente.ICliente;
  *
  * @author Alejandro Galindo, Francisco Felix
  */
-public class FrmSala extends javax.swing.JFrame implements PnlObservador, IActualizable{
+public class FrmSala extends javax.swing.JFrame implements PnlObservador, IActualizable {
 
     /**
      * Instancia de sala que cambia dentro de un hilo.
      */
     private Sala sala;
-    
+
     private Jugador jugador;
-    
+
     private ICliente sck;
-    
+
     private PnlTablero pnlTablero;
 
     /**
      * Constructor de FrmSala.
+     *
      * @param marcador
      * @param jugador
      */
@@ -43,33 +44,33 @@ public class FrmSala extends javax.swing.JFrame implements PnlObservador, IActua
         this.setTitle("Sala de juego - " + jugador.getNombre());
         this.setLocationRelativeTo(null);
         this.setResizable(false);
-        
+
         this.sck = new Cliente(this.jugador, this);
-        
+
         //Inicializar Sala
         Tablero tablero = new Tablero(marcador.getJugadores().size());
         this.sala = new Sala(marcador, tablero, marcador.getJugadores().size());
         System.out.println(this.sala.toString());
-        
+
         establecerColores();
         establecerMarcador();
         establecerTablero();
     }
-    
-    private void establecerColores(){
+
+    private void establecerColores() {
         int index = this.sala.getMarcador().getJugadores().indexOf(this.jugador);
         this.sala.getMarcador().getJugadores().get(index).setColor(this.jugador.getColor());
-        
+
         int indicador = 0;
         for (int i = 0; i < this.sala.getMarcador().getJugadores().size(); i++) {
-            if(!this.sala.getMarcador().getJugadores().get(i).equals(this.jugador)){
+            if (!this.sala.getMarcador().getJugadores().get(i).equals(this.jugador)) {
                 this.sala.getMarcador().getJugadores().get(i).setColor(this.jugador.getPreferencia().getColores().get(indicador));
                 indicador++;
             }
         }
     }
-    
-    private void establecerMarcador(){
+
+    private void establecerMarcador() {
         for (int i = 0; i < this.sala.getMarcador().getJugadores().size(); i++) {
             switch (i) {
                 case 0:
@@ -91,13 +92,13 @@ public class FrmSala extends javax.swing.JFrame implements PnlObservador, IActua
                 default:
                     break;
             }
-            
+
             this.validate();
-            
+
         }
     }
-    
-    private void actualizarMarcador(Marcador marcador){
+
+    private void actualizarMarcador(Marcador marcador) {
         for (int i = 0; i < this.sala.getMarcador().getJugadores().size(); i++) {
             switch (i) {
                 case 0:
@@ -119,15 +120,15 @@ public class FrmSala extends javax.swing.JFrame implements PnlObservador, IActua
                 default:
                     break;
             }
-            
+
             this.validate();
         }
     }
 
-    private void establecerTablero(){
+    private void establecerTablero() {
         this.pnlTablero = new PnlTablero(this.sala.getTablero(), jugador);
         pnlTablero.agrega(this);
-        
+
         pnlTablero.setSize(this.pnlFondoTablero.getSize());
         pnlTablero.setBorder(this.pnlFondoTablero.getBorder());
         this.pnlFondoTablero.add(pnlTablero);
@@ -135,7 +136,7 @@ public class FrmSala extends javax.swing.JFrame implements PnlObservador, IActua
         pnlTablero.setVisible(true);
         pnlTablero.repaint();
     }
-    
+
     /**
      * Retorna la sala que se esta trabajando.
      *
@@ -153,7 +154,6 @@ public class FrmSala extends javax.swing.JFrame implements PnlObservador, IActua
     public void setSala(Sala sala) {
         this.sala = sala;
     }
-    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -345,49 +345,37 @@ public class FrmSala extends javax.swing.JFrame implements PnlObservador, IActua
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void actualiza(FormaJuego forma) {
-        if(forma instanceof Linea){
-            sck.enviarAlServidor((Linea) forma);
-        }else if(forma instanceof Cuadro){
-            sck.enviarAlServidor((Cuadro) forma);
+    public void actualizaDeSocket(Object mensaje) {
+        if (mensaje instanceof Marcador) {
+            System.out.println("Actualizando marcador");
+            Marcador marcador = (Marcador) mensaje;
+            actualizarMarcador((Marcador) mensaje);
+
+            for (int i = 0; i < marcador.getJugadores().size(); i++) {
+                if (marcador.getJugadores().indexOf(this.jugador) == marcador.getSiguiente()) {
+                    this.pnlTablero.actualizaTurno(true);
+                }
+            }
+        } else if (mensaje instanceof List) {
+            List<FormaJuego> formas = (List<FormaJuego>) mensaje;
+
+            for (int i = 0; i < formas.size(); i++) {
+                for (Jugador jugador : this.sala.getMarcador().getJugadores()) {
+                    if (jugador.equals(formas.get(i).getJugador())) {
+                        formas.get(i).setJugador(jugador);
+                        if (i == 0) {
+                            this.pnlTablero.actualizaLineaTablero((Linea) formas.get(i));
+                        } else {
+                            this.pnlTablero.actualizaCuadroTablero((Cuadro) formas.get(i));
+                        }
+                    }
+                }
+            }
         }
     }
 
     @Override
-    public void actualizaDeSocket(Object mensaje) {
-        if(mensaje instanceof Marcador){
-            Marcador marcador = (Marcador) mensaje;
-            actualizarMarcador((Marcador) mensaje);
-            
-            for (int i = 0; i < marcador.getJugadores().size(); i++) {
-                if(marcador.getJugadores().indexOf(this.jugador) == marcador.getSiguiente()){
-                    this.pnlTablero.actualizaTurno(true);
-                }
-            }
-        }else if(mensaje instanceof Linea){
-            Linea linea = (Linea) mensaje;
-
-            List<Jugador> jugadores = this.sala.getMarcador().getJugadores();
-            for (Jugador jug : jugadores) {
-                if(jug.equals(linea.getJugador())){
-                    linea.setJugador(jug);
-                }
-            }
-            
-            this.pnlTablero.actualizaLineaTablero(linea);
-        }else if(mensaje instanceof Cuadro){
-            System.out.println("llego un cuadro");
-            Cuadro cuadro = (Cuadro) mensaje;
-            
-            List<Jugador> jugadores = this.sala.getMarcador().getJugadores();
-            for (Jugador jug : jugadores) {
-                if(jug.equals(cuadro.getJugador())){
-                    cuadro.setJugador(jug);
-                }
-            }
-            
-            this.pnlTablero.actualizaCuadroTablero(cuadro);
-            
-        }
+    public void actualiza(List<FormaJuego> movimiento) {
+        sck.enviarAlServidor(movimiento);
     }
 }

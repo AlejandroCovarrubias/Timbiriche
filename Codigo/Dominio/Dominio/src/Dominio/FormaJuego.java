@@ -7,8 +7,8 @@ package Dominio;
  *
  * @author Alejandro Galindo, Francisco Felix
  */
-public class FormaJuego extends Forma{
-    
+public class FormaJuego extends Forma {
+
     private Jugador jugador;
     private int indice;
 
@@ -42,4 +42,10 @@ public class FormaJuego extends Forma{
     public void setIndice(int indice) {
         this.indice = indice;
     }
+
+    @Override
+    public String toString() {
+        return "FormaJuego{" + "jugador=" + jugador + ", indice=" + indice + '}';
+    }
+
 }

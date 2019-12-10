@@ -33,4 +33,9 @@ public class Linea extends FormaJuego {
     public void setPosicion(Posicion posicion) {
         this.posicion = posicion;
     }
+
+    @Override
+    public String toString() {
+        return "Linea{" + "posicion=" + posicion + "jugador=" + super.getJugador() + "indice" + super.getIndice() + '}';
+    }
 }

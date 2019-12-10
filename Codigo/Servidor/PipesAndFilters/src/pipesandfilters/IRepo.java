@@ -8,7 +8,6 @@ package pipesandfilters;
 import DominioDTO.CuadroDTO;
 import DominioDTO.LineaDTO;
 import DominioDTO.MarcadorDTO;
-import DominioDTO.SalaDTO;
 
 /**
  *
